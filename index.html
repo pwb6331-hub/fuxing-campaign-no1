@@ -1204,9 +1204,7 @@
     // 複製所有留言內容至剪貼簿
     function copyAllComments() {
       if (comments.length === 0) return alert('目前尚無留言紀錄！');
-      const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join('
-
-');
+      const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join(String.fromCharCode(10) + String.fromCharCode(10));
       navigator.clipboard.writeText(`【復興村長候選人 1號陳玉媛 鄉親留言紀錄】
 
 ` + textBlock).then(() => {
@@ -1219,9 +1217,7 @@
     // 匯出留言為 TXT 文字檔
     function exportCommentsTXT() {
       if (comments.length === 0) return alert('目前尚無留言紀錄！');
-      const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join('
-
-');
+      const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join(String.fromCharCode(10) + String.fromCharCode(10));
       const fullText = `【連江縣南竿鄉復興村長選舉 1號陳玉媛 鄉親即時留言紀錄】
 匯出時間：${new Date().toLocaleString()}
 總計：${comments.length} 則留言
