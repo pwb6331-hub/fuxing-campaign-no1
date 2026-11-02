@@ -139,46 +139,61 @@
       box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
 
-    /* 中央放大 1號陳玉媛 競選LOGO與口號模組 (核心主角，絕不被遮擋) */
+    /* ============================================================== */
+    /* 🎯 核心連動：中間圖塊 1號陳玉媛 牢牢錨定在 3D 互動島上！ */
+    /* ============================================================== */
     #center-hero-container {
       position: absolute;
-      top: 48%; left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0; left: 0;
       z-index: 12;
       display: flex; flex-direction: column; align-items: center;
       pointer-events: none;
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translate(-50%, -92%); /* 底部尖端精準插在島上能量柱 */
+      will-change: transform, left, top;
     }
     #center-hero-card {
       pointer-events: auto;
-      width: 300px;
-      padding: 14px;
+      width: 290px;
+      padding: 13px;
       text-align: center;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 2.5px solid #f43f5e;
-      border-radius: 26px;
-      box-shadow: 0 16px 42px rgba(225, 29, 72, 0.28), 0 0 28px rgba(244, 63, 94, 0.22);
+      border-radius: 24px;
+      box-shadow: 0 16px 42px rgba(225, 29, 72, 0.32), 0 0 28px rgba(244, 63, 94, 0.25);
       position: relative;
       cursor: pointer;
-      animation: floatBreath 4s ease-in-out infinite;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     #center-hero-card:hover {
       transform: scale(1.03);
-      box-shadow: 0 22px 52px rgba(225, 29, 72, 0.4), 0 0 36px rgba(244, 63, 94, 0.35);
+      box-shadow: 0 22px 52px rgba(225, 29, 72, 0.45), 0 0 36px rgba(244, 63, 94, 0.38);
     }
-    @keyframes floatBreath {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-7px) rotate(0.6deg); }
+
+    /* 錨定至 3D 互動島的光芒連結信標指示線 */
+    .hero-anchor-stem {
+      width: 3px; height: 32px;
+      background: linear-gradient(to bottom, #f43f5e, rgba(245, 158, 11, 0.2));
+      box-shadow: 0 0 10px #f43f5e;
+      margin-top: -2px;
+    }
+    .hero-anchor-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #f59e0b;
+      box-shadow: 0 0 12px #f59e0b;
+      animation: pulseAnchor 1.6s infinite ease-in-out;
+    }
+    @keyframes pulseAnchor {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.4); opacity: 1; }
     }
 
     /* 圓形動態 LOGO 呈現區 */
     .hero-logo-wrapper {
       position: relative;
-      width: 195px; height: 195px;
-      margin: 0 auto 8px auto;
+      width: 185px; height: 185px;
+      margin: 0 auto 7px auto;
       border-radius: 50%;
       padding: 5px;
       background: linear-gradient(135deg, #f59e0b, #e11d48, #0284c7);
@@ -205,39 +220,39 @@
     }
 
     .hero-name-row {
-      display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px;
+      display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 2px;
     }
     .hero-ballot-no {
-      width: 32px; height: 32px;
+      width: 30px; height: 30px;
       background: #e11d48; color: #fff;
-      font-size: 20px; font-weight: 900;
+      font-size: 19px; font-weight: 900;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       border: 2px solid #ffffff;
       box-shadow: 0 3px 8px rgba(225, 29, 72, 0.4);
     }
     .hero-name {
-      font-size: 26px; font-weight: 900; color: #e11d48;
+      font-size: 25px; font-weight: 900; color: #e11d48;
       letter-spacing: 1px;
       text-shadow: 1px 1px 0 #fff;
     }
     .hero-slogan {
-      font-size: 13.5px; font-weight: 800; color: #0284c7;
+      font-size: 13px; font-weight: 800; color: #0284c7;
       margin: 4px 0 2px 0;
       line-height: 1.35;
     }
     .hero-sub {
-      font-size: 11.5px; font-weight: 600; color: #64748b;
+      font-size: 11px; font-weight: 600; color: #64748b;
     }
 
     /* 動態切換控制條 (LOGO與口號切換) */
     .hero-ctrl-bar {
       display: flex; align-items: center; justify-content: center; gap: 5px;
-      margin-top: 8px;
+      margin-top: 7px;
     }
     .hero-tag-btn {
-      padding: 3px 9px;
-      font-size: 10.5px; font-weight: 700;
+      padding: 3px 8px;
+      font-size: 10px; font-weight: 700;
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       background: #fff;
@@ -250,7 +265,7 @@
       box-shadow: 0 2px 6px rgba(225, 29, 72, 0.4);
     }
 
-    /* 右下角落並排：2號與3號小卡片 (桌機版適中；手機版縮小5倍極致小巧) */
+    /* 右下角落並排：2號與3號小卡片 */
     #bottom-right-opponents {
       position: absolute;
       bottom: 18px; right: 18px;
@@ -320,7 +335,7 @@
       border-radius: 4px;
     }
 
-    /* 左下角綜合控制區：連上次數統計器 + 留言板 + 16款小圖方塊模組 */
+    /* 左下角綜合控制區 */
     #left-bottom-dashboard {
       position: absolute;
       bottom: 14px; left: 14px;
@@ -474,7 +489,7 @@
       border-radius: 999px; cursor: pointer; white-space: nowrap;
     }
 
-    /* 3. 16款小圖方塊模組 (桌機版網格排版) */
+    /* 3. 16款小圖方塊模組 */
     .stickers-dock {
       background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(16px);
@@ -602,7 +617,7 @@
     }
 
     /* ============================================================== */
-    /* 🎯 關鍵：手機版 RWD 極限優化（橫向滑軌絕不重疊、2/3號縮小5倍不遮擋） */
+    /* 手機版 RWD 優化 */
     /* ============================================================== */
     @media (max-width: 768px) {
       #top-nav {
@@ -630,29 +645,29 @@
         padding: 4px 8px; font-size: 10px; white-space: nowrap;
       }
 
-      /* 1號主角卡片：置中微縮，比例優雅 */
-      #center-hero-container {
-        top: 41%;
-      }
+      /* 1號主角卡片：置中微縮 */
       #center-hero-card {
-        width: 220px;
-        padding: 10px;
+        width: 210px;
+        padding: 9px;
         border-radius: 18px;
       }
       .hero-logo-wrapper {
-        width: 128px; height: 128px;
+        width: 120px; height: 120px;
       }
       .hero-name {
-        font-size: 19px;
+        font-size: 18px;
       }
       .hero-slogan {
-        font-size: 11px;
+        font-size: 10.5px;
       }
       .hero-sub {
-        font-size: 9px;
+        font-size: 8.5px;
       }
       .hero-tag-btn {
         padding: 2px 6px; font-size: 8.5px;
+      }
+      .hero-anchor-stem {
+        height: 24px;
       }
 
       /* 手機版右邊2號及3號圖片縮小5倍，緊貼右下角落，絕不遮擋1號主角 */
@@ -664,14 +679,14 @@
         flex-direction: row;
       }
       .opponent-card {
-        width: 30px; /* 原始 145px 縮小 5 倍 */
+        width: 30px;
         padding: 2px;
         border-radius: 6px;
         box-shadow: 0 3px 8px rgba(0,0,0,0.25);
         background: rgba(255, 255, 255, 0.95);
       }
       .opp-img-wrap {
-        height: 20px; /* 縮小 5 倍 */
+        height: 20px;
         border-radius: 4px;
         margin-bottom: 2px;
       }
@@ -693,7 +708,7 @@
 
       /* 左下角綜合控制區 */
       #left-bottom-dashboard {
-        max-width: calc(100% - 80px); /* 預留右側空間，絕對不重疊 */
+        max-width: calc(100% - 80px);
         left: 8px; bottom: 8px;
         gap: 5px;
       }
@@ -719,7 +734,7 @@
         font-size: 8.5px;
       }
 
-      /* 🔥 核心修正：手機版16張小圖改為橫向平滑滑軌，每張獨立顯示，徹底消除重疊！ 🔥 */
+      /* 手機版16張小圖橫向平滑滑軌 */
       .stickers-grid {
         display: flex !important;
         flex-direction: row !important;
@@ -783,7 +798,7 @@
     </div>
   </div>
 
-  <!-- 地圖正中間放大 1 號陳玉媛 競選LOGO與口號模組 (核心主角，絕不被遮擋) -->
+  <!-- 🔥 核心連動：中間圖塊（牢牢錨定在 3D 互動島上，與島嶼旋轉平移一齊動） 🔥 -->
   <div id="center-hero-container">
     <div id="center-hero-card" onclick="triggerHeroCheer()">
       <div class="hero-logo-wrapper">
@@ -803,6 +818,9 @@
         <button class="hero-tag-btn" onclick="switchHeroLogo(2)">③ 在地服務</button>
       </div>
     </div>
+    <!-- 垂直金色能量光柱引線，直插 3D 互動島中心 -->
+    <div class="hero-anchor-stem"></div>
+    <div class="hero-anchor-dot"></div>
   </div>
 
   <!-- 右下角落並排：2號及3號候選人卡片 (手機版縮小5倍，精巧不擋1號主角) -->
@@ -917,7 +935,7 @@
     </div>
   </div>
 
-  <!-- 互動彈窗：參選影片劇院 (已徹底移除網頁資料來源與手動選檔文字) -->
+  <!-- 互動彈窗：參選影片劇院 (無任何資料夾路徑或本機選檔文字) -->
   <div id="video-modal" class="modal-overlay" onclick="closeVideoModal()">
     <div class="modal-box" style="max-width: 720px;" onclick="event.stopPropagation()">
       <button class="modal-close-btn" onclick="closeVideoModal()">✕</button>
@@ -935,7 +953,6 @@
           您的瀏覽器不支援影片播放。
         </video>
       </div>
-      <!-- 乾淨大氣，無任何資料夾路徑或本機選檔文字干擾 -->
     </div>
   </div>
 
@@ -1240,9 +1257,9 @@
     scene.background = null;
 
     const aspect = window.innerWidth / window.innerHeight;
-    const d = 14;
+    const d = 13.5;
     const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
-    camera.position.set(24, 26, 24);
+    camera.position.set(24, 25, 24);
     camera.lookAt(0, -1, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -1262,7 +1279,7 @@
     controls.target.set(0, -1, 0);
 
     function resetCameraView() {
-      camera.position.set(24, 26, 24);
+      camera.position.set(24, 25, 24);
       controls.target.set(0, -1, 0);
       camera.lookAt(0, -1, 0);
     }
@@ -1293,6 +1310,7 @@
     islandGroup.position.set(0, -2.5, 0);
     scene.add(islandGroup);
 
+    // 花崗岩黏土主島基座
     const islandBaseGeo = new THREE.CylinderGeometry(8.5, 9.8, 2.2, 12);
     const islandBaseMat = new THREE.MeshLambertMaterial({ color: 0x4ade80, flatShading: true });
     const islandBase = new THREE.Mesh(islandBaseGeo, islandBaseMat);
@@ -1301,6 +1319,7 @@
     islandBase.castShadow = true;
     islandGroup.add(islandBase);
 
+    // 花崗岩小山丘
     const hillGeo = new THREE.ConeGeometry(4.5, 4.2, 7);
     const hillMat = new THREE.MeshLambertMaterial({ color: 0x22c55e, flatShading: true });
     const hill = new THREE.Mesh(hillGeo, hillMat);
@@ -1308,6 +1327,7 @@
     hill.castShadow = true;
     islandGroup.add(hill);
 
+    // 復興澳口防波堤
     const breakwaterGeo = new THREE.BoxGeometry(6, 0.8, 1.4);
     const breakwaterMat = new THREE.MeshLambertMaterial({ color: 0x94a3b8, flatShading: true });
     const breakwater = new THREE.Mesh(breakwaterGeo, breakwaterMat);
@@ -1315,6 +1335,7 @@
     breakwater.rotation.y = -Math.PI / 6;
     islandGroup.add(breakwater);
 
+    // 燈塔
     const lighthouseGroup = new THREE.Group();
     const lhBase = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 2.4, 8), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }));
     const lhTop = new THREE.Mesh(new THREE.ConeGeometry(0.55, 0.9, 8), new THREE.MeshLambertMaterial({ color: 0xe11d48, flatShading: true }));
@@ -1323,6 +1344,7 @@
     lighthouseGroup.position.set(6.2, 1.8, 3.8);
     islandGroup.add(lighthouseGroup);
 
+    // 牛角聚落石屋群
     const houseColors = [0xe2e8f0, 0xf1f5f9, 0xfbcfe8, 0xfef08a, 0xdbeafe];
     const roofColors = [0xef4444, 0xb91c1c, 0xd97706, 0x475569];
 
@@ -1377,16 +1399,45 @@
     ];
     treeCoords.forEach(c => islandGroup.add(createClayTree(c[0], c[1], c[2])));
 
+    // ========================================================
+    // 🔥 3D 空間錨定中心：中間圖塊錨定物件與立體光柱 🔥
+    // ========================================================
+    const heroAnchor3D = new THREE.Group();
+    heroAnchor3D.position.set(0, 4.8, 0); // 看板底部瞄準點
+    islandGroup.add(heroAnchor3D);
+
+    // 3D 立體金色能量連結柱 (從島嶼頂峰直連看板底部)
+    const pillarGeo = new THREE.CylinderGeometry(0.12, 0.28, 4.2, 16);
+    const pillarMat = new THREE.MeshBasicMaterial({
+      color: 0xf59e0b,
+      transparent: true,
+      opacity: 0.7
+    });
+    const energyPillar = new THREE.Mesh(pillarGeo, pillarMat);
+    energyPillar.position.set(0, 2.2, 0);
+    islandGroup.add(energyPillar);
+
+    // 地面紅色能量環
+    const groundRing = new THREE.Mesh(
+      new THREE.TorusGeometry(1.2, 0.08, 12, 36),
+      new THREE.MeshBasicMaterial({ color: 0xf43f5e })
+    );
+    groundRing.rotation.x = Math.PI / 2;
+    groundRing.position.y = 0.9;
+    islandGroup.add(groundRing);
+
+    // 3D 浮空光環
     const heroRingGroup = new THREE.Group();
-    heroRingGroup.position.set(0, 3.8, 0);
+    heroRingGroup.position.set(0, 4.5, 0);
     islandGroup.add(heroRingGroup);
 
-    const torusGeo = new THREE.TorusGeometry(2.4, 0.1, 12, 36);
+    const torusGeo = new THREE.TorusGeometry(2.4, 0.09, 12, 36);
     const torusMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
     const torus = new THREE.Mesh(torusGeo, torusMat);
     torus.rotation.x = Math.PI / 2;
     heroRingGroup.add(torus);
 
+    // 紙飛機模型
     const planeGeo = new THREE.BufferGeometry();
     const planeVertices = new Float32Array([
       0, 0, 0.9,    -0.6, 0.15, -0.6,   0, 0.3, -0.4,
@@ -1400,6 +1451,7 @@
     const paperPlane = new THREE.Mesh(planeGeo, planeMat);
     scene.add(paperPlane);
 
+    // 小漁船
     const boatGroup = new THREE.Group();
     const hull = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.45, 0.7), new THREE.MeshLambertMaterial({ color: 0x0284c7, flatShading: true }));
     const cabin = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.5, 0.5), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }));
@@ -1408,6 +1460,10 @@
     boatGroup.position.set(6, -2.4, 8);
     scene.add(boatGroup);
 
+    // 動畫循環
+    const heroContainerEl = document.getElementById('center-hero-container');
+    const tempAnchorPos = new THREE.Vector3();
+
     let clock = new THREE.Clock();
     function animate() {
       requestAnimationFrame(animate);
@@ -1415,9 +1471,23 @@
 
       controls.update();
 
-      heroRingGroup.position.y = 3.8 + Math.sin(t * 1.8) * 0.25;
-      heroRingGroup.rotation.y = t * 0.4;
+      // 主島波浪起伏 (帶動中間圖塊一起動！)
+      const islandBobY = -2.5 + Math.sin(t * 1.6) * 0.18;
+      islandGroup.position.y = islandBobY;
 
+      // 金色光環與能量柱旋轉律動
+      heroRingGroup.rotation.y = t * 0.4;
+      energyPillar.scale.y = 1 + Math.sin(t * 3.0) * 0.05;
+
+      // 🔥 關鍵核心：將中間圖塊位置完全綁定在 3D 錨點上，旋轉縮放完全一齊動！ 🔥
+      heroAnchor3D.getWorldPosition(tempAnchorPos);
+      tempAnchorPos.project(camera);
+      const screenX = (tempAnchorPos.x * 0.5 + 0.5) * window.innerWidth;
+      const screenY = (-(tempAnchorPos.y * 0.5) + 0.5) * window.innerHeight;
+      heroContainerEl.style.left = `${screenX}px`;
+      heroContainerEl.style.top = `${screenY}px`;
+
+      // 紙飛機盤旋
       const radius = 9.5;
       const speed = 0.7;
       paperPlane.position.x = Math.cos(t * speed) * radius;
@@ -1426,9 +1496,11 @@
       paperPlane.rotation.y = -t * speed - Math.PI / 2;
       paperPlane.rotation.z = Math.sin(t * 2) * 0.15;
 
+      // 小漁船搖曳
       boatGroup.position.x = 6 + Math.sin(t * 0.7) * 1.0;
       boatGroup.rotation.z = Math.sin(t * 1.5) * 0.05;
 
+      // 水面微微升降
       water.position.y = -2.8 + Math.sin(t * 1.2) * 0.05;
 
       renderer.render(scene, camera);
