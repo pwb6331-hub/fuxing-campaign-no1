@@ -645,29 +645,40 @@
         padding: 4px 8px; font-size: 10px; white-space: nowrap;
       }
 
-      /* 1號主角卡片：置中微縮 */
+      /* 1號主角卡片：手機版精巧懸浮模式，徹底避免擋住島嶼草皮與山坡圖塊 */
       #center-hero-card {
-        width: 210px;
-        padding: 9px;
-        border-radius: 18px;
+        width: 152px !important;
+        padding: 5px 8px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 20px rgba(225, 29, 72, 0.28) !important;
       }
       .hero-logo-wrapper {
-        width: 120px; height: 120px;
+        width: 68px !important; height: 68px !important;
+        margin-bottom: 2px !important;
+      }
+      .hero-ballot-no {
+        font-size: 13px !important;
       }
       .hero-name {
-        font-size: 18px;
+        font-size: 14.5px !important;
+        letter-spacing: 0.5px !important;
       }
       .hero-slogan {
-        font-size: 10.5px;
+        font-size: 8.5px !important;
+        margin: 1px 0 !important;
       }
       .hero-sub {
-        font-size: 8.5px;
+        font-size: 7.5px !important;
+        margin-bottom: 2px !important;
+      }
+      .hero-ctrl-bar {
+        gap: 2px !important;
       }
       .hero-tag-btn {
-        padding: 2px 6px; font-size: 8.5px;
+        padding: 1.5px 4px !important; font-size: 7.5px !important;
       }
       .hero-anchor-stem {
-        height: 24px;
+        height: 18px !important;
       }
 
       /* 手機版右邊2號及3號圖片縮小5倍，緊貼右下角落，絕不遮擋1號主角 */
@@ -1257,7 +1268,18 @@
     scene.background = null;
 
     const aspect = window.innerWidth / window.innerHeight;
-    const d = 13.5;
+    // 自適應手機螢幕視野 (避免手機直式螢幕切掉島嶼邊緣)：
+    function getCameraFrustumD() {
+      const asp = window.innerWidth / window.innerHeight;
+      if (asp < 0.6) {
+        return 11.2 / asp; // 手機直式：動態展開可視寬度 [-11.2, +11.2]，島嶼左右邊界全收納無裁切！
+      } else if (asp < 1.0) {
+        return 10.5 / asp;
+      } else {
+        return 13.5;
+      }
+    }
+    let d = getCameraFrustumD();
     const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
     camera.position.set(24, 25, 24);
     camera.lookAt(0, -1, 0);
@@ -1408,41 +1430,41 @@
     }
 
     // ==================================================================================
-    // 🌟 1. 最外圈第一層外圈淺綠色上：完整平放 3 個「①號陳玉媛」圖塊 (間隔 120 度) 🌟
-    // 水平平躺平放在草皮地面上 (rotation.x = -Math.PI / 2)，絕無任何立牌遮擋，極致平整大器！
+    // 🌟 1. 最外圈第一層淺綠色草皮：完整平放 3 個「①號陳玉媛」圖塊 🌟
+    // 全數配置在前半圈開闊視野草皮上，水平平躺貼地 (rotation.x = -Math.PI / 2)，絕不切邊、絕不擋字！
     // ==================================================================================
     const outerSignsConfig = [
-      // 1-A: 正面最開闊處 (位於鏡頭正前方最下緣，避開上方中央卡片，俯瞰文字端正水平可讀！)
-      { x: 4.80, y: 1.42, z: 4.80, rotZ: -Math.PI / 4 },
-      // 1-B: 左側外圈草皮 120 度 (水平平躺貼地)
-      { x: -6.57, y: 1.42, z: 1.76, rotZ: Math.PI * 0.42 },
-      // 1-C: 右側外圈草皮 240 度 (水平平躺貼地)
-      { x: 1.76, y: 1.42, z: -6.57, rotZ: -Math.PI * 0.92 }
+      // 1-A: 正面最開闊處草皮 (屏幕正下方中央，超大文字水平正向端正可讀！)
+      { x: 4.50, y: 1.42, z: 4.50, rotZ: -Math.PI / 4, w: 5.0, h: 1.5 },
+      // 1-B: 左前側開闊草皮 (平鋪貼地，完全收在螢幕內)
+      { x: -4.50, y: 1.42, z: 3.60, rotZ: Math.PI * 0.22, w: 4.6, h: 1.4 },
+      // 1-C: 右前側開闊草皮 (平鋪貼地，完全收在螢幕內)
+      { x: 3.60, y: 1.42, z: -4.50, rotZ: -Math.PI * 0.22, w: 4.6, h: 1.4 }
     ];
-    outerSignsConfig.forEach((cfg, idx) => {
-      const sign = create3DGroundTextSign('①號陳玉媛', 'rgba(255, 255, 255, 0.98)', '#0284c7', '#e11d48', 4.8, 1.45);
+    outerSignsConfig.forEach((cfg) => {
+      const sign = create3DGroundTextSign('①號陳玉媛', 'rgba(255, 255, 255, 0.98)', '#0284c7', '#e11d48', cfg.w, cfg.h);
       sign.position.set(cfg.x, cfg.y, cfg.z);
-      sign.rotation.x = -Math.PI / 2; // 完整水平平放在草皮地面上！
+      sign.rotation.x = -Math.PI / 2; // 完整水平平躺在草皮地表！
       sign.rotation.z = cfg.rotZ;
       islandGroup.add(sign);
     });
 
     // ==================================================================================
-    // 🌟 2. 第二圈上：完整平放 3 個「復興村GOGOGO」圖塊 (與外圈錯開 60 度，間隔 120 度) 🌟
-    // 水平平躺平放在第二圈草綠色台地表面 (rotation.x = -Math.PI / 2，y = 2.07)
+    // 🌟 2. 第二圈草綠色台地與山坡處：完整平放 3 個「復興村GOGOGO」圖塊 🌟
+    // 與第一層圖塊呈立體階梯式排列，水平平躺 (rotation.x = -Math.PI / 2，y = 2.07)，層次分明無遮擋！
     // ==================================================================================
     const innerSignsConfig = [
-      // 2-A: 右前側台地平放
-      { x: 4.20, y: 2.07, z: -1.10, rotZ: -Math.PI * 0.35 },
-      // 2-B: 左前側台地平放 (前方無任何樹木擋住)
-      { x: -1.10, y: 2.07, z: 4.20, rotZ: Math.PI * 0.15 },
-      // 2-C: 正後方台地平放
-      { x: -3.00, y: 2.07, z: -3.00, rotZ: Math.PI * 0.75 }
+      // 2-A: 正面階梯位 (剛好在「①號陳玉媛」正上方一階，階梯並列，端正水平可讀！)
+      { x: 2.50, y: 2.07, z: 2.50, rotZ: -Math.PI / 4, w: 5.2, h: 1.5 },
+      // 2-B: 左側山坡地景草皮 (前方空曠無任何樹木)
+      { x: -2.80, y: 2.07, z: 1.60, rotZ: Math.PI * 0.18, w: 4.8, h: 1.4 },
+      // 2-C: 右側山坡地景草皮 (前方空曠無任何樹木)
+      { x: 1.60, y: 2.07, z: -2.80, rotZ: -Math.PI * 0.18, w: 4.8, h: 1.4 }
     ];
-    innerSignsConfig.forEach((cfg, idx) => {
-      const sign = create3DGroundTextSign('復興村GOGOGO', 'rgba(255, 255, 255, 0.98)', '#e11d48', '#f59e0b', 5.0, 1.45);
+    innerSignsConfig.forEach((cfg) => {
+      const sign = create3DGroundTextSign('復興村GOGOGO', 'rgba(255, 255, 255, 0.98)', '#e11d48', '#f59e0b', cfg.w, cfg.h);
       sign.position.set(cfg.x, cfg.y, cfg.z);
-      sign.rotation.x = -Math.PI / 2; // 完整水平平放在第二圈草綠色台地上！
+      sign.rotation.x = -Math.PI / 2; // 完整水平平躺在第二圈草綠色山坡台地！
       sign.rotation.z = cfg.rotZ;
       islandGroup.add(sign);
     });
@@ -1508,21 +1530,22 @@
     treeCoords.forEach(c => islandGroup.add(createClayTree(c[0], c[1], c[2])));
 
     // ========================================================
-    // 🔥 3D 空間錨定中心：中間圖塊高懸於天空，完全不壓島嶼地表 🔥
+    // 🔥 3D 空間錨定中心：中間卡片高懸於天空，徹底杜絕遮擋草皮地景 🔥
     // ========================================================
+    const isMobileDevice = (window.innerWidth <= 640);
     const heroAnchor3D = new THREE.Group();
-    heroAnchor3D.position.set(0, 6.2, 0); // 將錨點拉高至 6.2，確保地面圖塊 100% 完整露出！
+    heroAnchor3D.position.set(0, isMobileDevice ? 7.2 : 6.4, 0); // 手機版拉高至 7.2，讓地景草皮 100% 露出來！
     islandGroup.add(heroAnchor3D);
 
     // 3D 立體金色能量連結柱 (高聳光柱貫通天地)
-    const pillarGeo = new THREE.CylinderGeometry(0.12, 0.28, 5.8, 16);
+    const pillarGeo = new THREE.CylinderGeometry(0.12, 0.28, isMobileDevice ? 7.0 : 6.0, 16);
     const pillarMat = new THREE.MeshBasicMaterial({
       color: 0xf59e0b,
       transparent: true,
       opacity: 0.75
     });
     const energyPillar = new THREE.Mesh(pillarGeo, pillarMat);
-    energyPillar.position.set(0, 3.0, 0);
+    energyPillar.position.set(0, isMobileDevice ? 3.6 : 3.0, 0);
     islandGroup.add(energyPillar);
 
     // 地面紅色能量環
@@ -1617,6 +1640,7 @@
 
     window.addEventListener('resize', () => {
       const aspect = window.innerWidth / window.innerHeight;
+      d = getCameraFrustumD();
       camera.left = -d * aspect;
       camera.right = d * aspect;
       camera.top = d;
