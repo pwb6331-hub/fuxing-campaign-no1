@@ -1310,54 +1310,66 @@
     islandGroup.position.set(0, -2.5, 0);
     scene.add(islandGroup);
 
-    // 花崗岩黏土主島基座
-    const islandBaseGeo = new THREE.CylinderGeometry(8.5, 9.8, 2.2, 12);
-    const islandBaseMat = new THREE.MeshLambertMaterial({ color: 0x4ade80, flatShading: true });
-    const islandBase = new THREE.Mesh(islandBaseGeo, islandBaseMat);
-    islandBase.position.y = 0.8;
-    islandBase.receiveShadow = true;
-    islandBase.castShadow = true;
-    islandGroup.add(islandBase);
+    // ========================================================
+    // 🏝️ 雙層階梯台地幾何：第一層淺綠色外圈 + 第二圈草綠色台地
+    // ========================================================
+    // 最外圈第一層：花崗岩淺綠色外環草皮 (外半徑 8.6, 頂面半徑 8.2, 高 1.8)
+    const tier1Geo = new THREE.CylinderGeometry(8.2, 9.6, 1.8, 14);
+    const tier1Mat = new THREE.MeshLambertMaterial({ color: 0x86efac, flatShading: true }); // 明亮淺綠色草皮
+    const tier1 = new THREE.Mesh(tier1Geo, tier1Mat);
+    tier1.position.y = 0.5;
+    tier1.receiveShadow = true;
+    tier1.castShadow = true;
+    islandGroup.add(tier1);
+
+    // 第二圈：草綠色中層聚落台地 (頂面半徑 5.8, 高 1.4, 頂面 y ≈ 2.05)
+    const tier2Geo = new THREE.CylinderGeometry(5.8, 6.4, 1.4, 12);
+    const tier2Mat = new THREE.MeshLambertMaterial({ color: 0x22c55e, flatShading: true }); // 鮮明草綠色台地
+    const tier2 = new THREE.Mesh(tier2Geo, tier2Mat);
+    tier2.position.y = 1.35;
+    tier2.receiveShadow = true;
+    tier2.castShadow = true;
+    islandGroup.add(tier2);
 
     // 花崗岩小山丘
-    const hillGeo = new THREE.ConeGeometry(4.5, 4.2, 7);
-    const hillMat = new THREE.MeshLambertMaterial({ color: 0x22c55e, flatShading: true });
+    const hillGeo = new THREE.ConeGeometry(4.2, 4.0, 7);
+    const hillMat = new THREE.MeshLambertMaterial({ color: 0x15803d, flatShading: true });
     const hill = new THREE.Mesh(hillGeo, hillMat);
-    hill.position.set(-2.5, 3.2, -2.5);
+    hill.position.set(-2.5, 3.3, -2.5);
     hill.castShadow = true;
     islandGroup.add(hill);
 
     // 復興澳口防波堤
-    const breakwaterGeo = new THREE.BoxGeometry(6, 0.8, 1.4);
+    const breakwaterGeo = new THREE.BoxGeometry(5.5, 0.8, 1.3);
     const breakwaterMat = new THREE.MeshLambertMaterial({ color: 0x94a3b8, flatShading: true });
     const breakwater = new THREE.Mesh(breakwaterGeo, breakwaterMat);
-    breakwater.position.set(4, 0.7, 5);
+    breakwater.position.set(4.2, 0.7, 5.2);
     breakwater.rotation.y = -Math.PI / 6;
     islandGroup.add(breakwater);
 
     // 燈塔
     const lighthouseGroup = new THREE.Group();
-    const lhBase = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 2.4, 8), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }));
-    const lhTop = new THREE.Mesh(new THREE.ConeGeometry(0.55, 0.9, 8), new THREE.MeshLambertMaterial({ color: 0xe11d48, flatShading: true }));
-    lhTop.position.y = 1.6;
+    const lhBase = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.55, 2.2, 8), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }));
+    const lhTop = new THREE.Mesh(new THREE.ConeGeometry(0.5, 0.85, 8), new THREE.MeshLambertMaterial({ color: 0xe11d48, flatShading: true }));
+    lhTop.position.y = 1.5;
     lighthouseGroup.add(lhBase, lhTop);
-    lighthouseGroup.position.set(6.2, 1.8, 3.8);
+    lighthouseGroup.position.set(6.4, 1.8, 3.6);
     islandGroup.add(lighthouseGroup);
 
-    // ========================================================
-    // 🔥 動態島綠色處地景字樣：「復興村GOGOGO」與「1號陳玉媛」 🔥
-    // ========================================================
-    function create3DGroundTextSign(text, bgColor = 'rgba(255, 255, 255, 0.95)', textColor = '#e11d48', strokeColor = '#f59e0b', w = 4.8, h = 1.25) {
+    // =========================================================================
+    // 🔥 3D 地景高解析看板生成函數 (字體清晰思源黑體 + 雙層立體邊框 + 仰角視角) 🔥
+    // =========================================================================
+    function create3DGroundTextSign(text, bgColor = 'rgba(255, 255, 255, 0.98)', textColor = '#e11d48', strokeColor = '#f59e0b', w = 4.6, h = 1.3) {
       const canvas = document.createElement('canvas');
       canvas.width = 1024;
-      canvas.height = 256;
+      canvas.height = 280;
       const ctx = canvas.getContext('2d');
 
       // 圓角底板
       ctx.fillStyle = bgColor;
       ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = 14;
-      const r = 36;
+      ctx.lineWidth = 16;
+      const r = 38;
       ctx.beginPath();
       ctx.moveTo(r, 0);
       ctx.lineTo(canvas.width - r, 0);
@@ -1372,13 +1384,18 @@
       ctx.fill();
       ctx.stroke();
 
-      // 文字陰影與大字 (思源黑體高清晰度)
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-      ctx.shadowBlur = 10;
+      // 內層細金邊裝飾
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 5;
+      ctx.stroke();
+
+      // 文字陰影與超大粗體 (思源黑體極致清晰)
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
+      ctx.shadowBlur = 12;
       ctx.shadowOffsetX = 3;
       ctx.shadowOffsetY = 4;
       ctx.fillStyle = textColor;
-      ctx.font = '900 110px "Noto Sans TC", "Source Han Sans TC", "PingFang TC", sans-serif';
+      ctx.font = '900 115px "Noto Sans TC", "Source Han Sans TC", "PingFang TC", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(text, canvas.width / 2, canvas.height / 2);
@@ -1390,24 +1407,51 @@
       return mesh;
     }
 
-    // 1. 動態島綠色處前緣大字：「復興村GOGOGO」
-    const signGOGO = create3DGroundTextSign('復興村GOGOGO', 'rgba(255, 255, 255, 0.96)', '#e11d48', '#f59e0b', 5.2, 1.3);
-    signGOGO.position.set(1.2, 2.1, 5.2);
-    signGOGO.rotation.x = -Math.PI / 4;
-    islandGroup.add(signGOGO);
+    // ==================================================================================
+    // 🌟 1. 最外圈第一層外圈淺綠色上：平均配置 3 個「①號陳玉媛」圖塊 (間隔 120 度) 🌟
+    // ==================================================================================
+    const outerSignsConfig = [
+      // 1-A: 正面偏中 (迎向鏡頭視角)
+      { x: 1.25, y: 1.25, z: 7.05, rotX: -Math.PI / 4.2, rotY: 0.05 },
+      // 1-B: 左後方 120 度
+      { x: -6.70, y: 1.25, z: -2.45, rotX: -Math.PI / 4.2, rotY: Math.PI * 0.62 },
+      // 1-C: 右後方 240 度
+      { x: 5.45, y: 1.25, z: -4.60, rotX: -Math.PI / 4.2, rotY: -Math.PI * 0.62 }
+    ];
+    outerSignsConfig.forEach((cfg, idx) => {
+      const sign = create3DGroundTextSign('①號陳玉媛', 'rgba(255, 255, 255, 0.98)', '#0284c7', '#e11d48', 4.6, 1.3);
+      sign.position.set(cfg.x, cfg.y, cfg.z);
+      sign.rotation.x = cfg.rotX;
+      sign.rotation.y = cfg.rotY;
+      islandGroup.add(sign);
+    });
 
-    // 2. 動態島綠色處山坡大字：「1號陳玉媛」
-    const signCandidate = create3DGroundTextSign('①號陳玉媛', 'rgba(255, 255, 255, 0.96)', '#0284c7', '#e11d48', 4.6, 1.3);
-    signCandidate.position.set(-4.0, 2.5, 2.2);
-    signCandidate.rotation.x = -Math.PI / 4;
-    signCandidate.rotation.y = Math.PI / 10;
-    islandGroup.add(signCandidate);
+    // ==================================================================================
+    // 🌟 2. 第二圈上：平均配置 3 個「復興村GOGOGO」圖塊 (與外圈錯開 60 度，間隔 120 度) 🌟
+    // ==================================================================================
+    const innerSignsConfig = [
+      // 2-A: 正右前側 (迎向右側視角)
+      { x: 4.50, y: 2.15, z: 1.65, rotX: -Math.PI / 4.2, rotY: -Math.PI * 0.22 },
+      // 2-B: 正左前側 (迎向左側視角，前方樹木已完全移除，100% 不擋字！)
+      { x: -3.65, y: 2.15, z: 3.10, rotX: -Math.PI / 4.2, rotY: Math.PI * 0.22 },
+      // 2-C: 正後方 120 度
+      { x: -0.85, y: 2.15, z: -4.75, rotX: -Math.PI / 4.2, rotY: Math.PI }
+    ];
+    innerSignsConfig.forEach((cfg, idx) => {
+      const sign = create3DGroundTextSign('復興村GOGOGO', 'rgba(255, 255, 255, 0.98)', '#e11d48', '#f59e0b', 5.0, 1.3);
+      sign.position.set(cfg.x, cfg.y, cfg.z);
+      sign.rotation.x = cfg.rotX;
+      sign.rotation.y = cfg.rotY;
+      islandGroup.add(sign);
+    });
 
-    // 牛角聚落石屋群
+    // ==================================================================================
+    // 🏡 牛角聚落石屋群 (集中於中央高台區，絕不遮擋任何外圈與第二圈字體)
+    // ==================================================================================
     const houseColors = [0xe2e8f0, 0xf1f5f9, 0xfbcfe8, 0xfef08a, 0xdbeafe];
     const roofColors = [0xef4444, 0xb91c1c, 0xd97706, 0x475569];
 
-    function createClayHouse(x, y, z, rotY = 0, scale = 0.75) {
+    function createClayHouse(x, y, z, rotY = 0, scale = 0.72) {
       const house = new THREE.Group();
       const bColor = houseColors[Math.floor(Math.random() * houseColors.length)];
       const rColor = roofColors[Math.floor(Math.random() * roofColors.length)];
@@ -1433,15 +1477,18 @@
     }
 
     const houseCoords = [
-      [-1.5, 2.0, 2], [0, 2.1, 3.2], [2, 1.9, 1.5], [3.2, 1.8, 2.8],
-      [-3, 2.5, 0.8], [-2, 3.0, -0.8], [0.8, 2.6, -1.2], [2.5, 2.2, -0.8],
-      [-0.8, 3.5, -2.8], [1.5, 3.0, -2.8]
+      [-1.2, 2.2, 1.2], [0.2, 2.2, 1.8], [1.8, 2.2, 0.8], [2.2, 2.2, 1.8],
+      [-2.5, 2.6, 0.2], [-1.8, 3.1, -1.0], [0.8, 2.8, -1.2], [2.2, 2.5, -0.8],
+      [-0.8, 3.6, -2.6], [1.5, 3.2, -2.6]
     ];
     houseCoords.forEach((coord, i) => {
       const h = createClayHouse(coord[0], coord[1], coord[2], (i * 0.4));
       islandGroup.add(h);
     });
 
+    // ==================================================================================
+    // 🌲 綠意黏土樹木 (全部布置於山丘後側高處與邊角，徹底清除正面遮擋物，確保字體100%露出來！)
+    // ==================================================================================
     function createClayTree(x, y, z) {
       const tree = new THREE.Group();
       const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.15, 0.6, 5), new THREE.MeshLambertMaterial({ color: 0x78350f, flatShading: true }));
@@ -1453,8 +1500,8 @@
       return tree;
     }
     const treeCoords = [
-      [-4, 2.2, 2.5], [-2.8, 2.3, 3.2], [4.2, 1.8, 0], [4.8, 1.8, -1.8],
-      [2, 3.5, -3.5], [-2, 4.3, -2.8]
+      [-2.2, 4.3, -2.8], [1.8, 3.6, -3.2], [-5.2, 1.8, -3.4], [5.5, 1.6, -2.2],
+      [-1.2, 3.8, -3.6], [3.2, 2.8, -2.5]
     ];
     treeCoords.forEach(c => islandGroup.add(createClayTree(c[0], c[1], c[2])));
 
