@@ -1010,6 +1010,18 @@
     </div>
   </div>
 
+    <!-- 自訂純國字彈窗 (徹底取代原生 alert，絕無英文網域名稱) -->
+  <div id="custom-dialog-modal" class="modal-overlay" onclick="closeCustomDialog()">
+    <div class="modal-box" style="max-width: 320px; text-align: center; padding: 18px;" onclick="event.stopPropagation()">
+      <div id="custom-dialog-title" style="font-size: 16px; font-weight: 900; color: #0f172a; margin-bottom: 10px;"></div>
+      <div id="custom-dialog-content" style="font-size: 13.5px; color: #334155; line-height: 1.6; text-align: left; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; margin-bottom: 15px; white-space: pre-line;"></div>
+      <button class="tool-btn primary-video" style="width: 100%; padding: 8px; font-size: 13px; font-weight: 800;" onclick="closeCustomDialog()">確定</button>
+    </div>
+  </div>
+
+  <!-- 自訂純國字輕量提示 Toast -->
+  <div id="custom-toast" style="position: fixed; top: 65px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.92); color: #fff; padding: 8px 18px; border-radius: 999px; font-size: 12px; font-weight: 700; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; box-shadow: 0 4px 14px rgba(0,0,0,0.25);"></div>
+
   <!-- 互動彈窗：競選完整海報 -->
   <div id="poster-modal" class="modal-overlay" onclick="closeModal('poster-modal')">
     <div class="modal-box" style="max-width: 460px; text-align: center;" onclick="event.stopPropagation()">
@@ -1160,7 +1172,7 @@
       const text = textInput.value.trim();
 
       if (!text) {
-        alert('請先輸入您想對 1 號陳玉媛說的祝福或政見建言喔！');
+        showCustomToast('請先輸入您想對 1 號陳玉媛說的祝福或政見建言喔！');
         textInput.focus();
         return;
       }
@@ -1203,20 +1215,20 @@
 
     // 複製所有留言內容至剪貼簿
     function copyAllComments() {
-      if (comments.length === 0) return alert('目前尚無留言紀錄！');
+      if (comments.length === 0) return showCustomToast('目前尚無留言紀錄！');
       const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join(String.fromCharCode(10) + String.fromCharCode(10));
       navigator.clipboard.writeText(`【復興村長候選人 1號陳玉媛 鄉親留言紀錄】
 
 ` + textBlock).then(() => {
-        alert(`已成功複製全部 ${comments.length} 則留言紀錄！可直接貼至 LINE 或文字記事本保存。`);
+        showCustomToast(`已成功複製全部 ${comments.length} 則留言紀錄！`);
       }).catch(() => {
-        alert('複製失敗，請手動選取文字複製。');
+        showCustomToast('複製失敗，請手動選取文字複製。');
       });
     }
 
     // 匯出留言為 TXT 文字檔
     function exportCommentsTXT() {
-      if (comments.length === 0) return alert('目前尚無留言紀錄！');
+      if (comments.length === 0) return showCustomToast('目前尚無留言紀錄！');
       const textBlock = comments.map((c, i) => `${i + 1}. [${c.time}] ${c.author}：${c.text}`).join(String.fromCharCode(10) + String.fromCharCode(10));
       const fullText = `【連江縣南竿鄉復興村長選舉 1號陳玉媛 鄉親即時留言紀錄】
 匯出時間：${new Date().toLocaleString()}
@@ -1404,11 +1416,28 @@
       });
     }
 
+        // 自訂純國字提示系統 (徹底取代原生 alert，絕不出現英文網址)
+    function showCustomDialog(title, content) {
+      document.getElementById('custom-dialog-title').innerText = title;
+      document.getElementById('custom-dialog-content').innerText = content;
+      document.getElementById('custom-dialog-modal').classList.add('active');
+    }
+    function closeCustomDialog() {
+      document.getElementById('custom-dialog-modal').classList.remove('active');
+    }
+    function showCustomToast(msg) {
+      const toast = document.getElementById('custom-toast');
+      if (!toast) return;
+      toast.innerText = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+    }
+
     function showOpponentDetail(no) {
       if (no === 2) {
-        alert('【2號候選人文宣】\n數字：② 號\n文宣標語：知己知鄰快服務 全心全力拚未來\n競選主軸：爭取連任・在地扎根');
+        showCustomDialog('【２號候選人文宣】', '數字：② 號' + String.fromCharCode(10) + '文宣標語：知己知鄰快服務 全心全力拚未來' + String.fromCharCode(10) + '競選主軸：爭取連任・在地扎根');
       } else {
-        alert('【3號候選人文宣】\n數字：③ 號\n文宣標語：找回復興村的溫暖 懇請支持\n競選主軸：關懷鄰里・服務鄉親');
+        showCustomDialog('【３號候選人文宣】', '數字：③ 號' + String.fromCharCode(10) + '文宣標語：找回復興村的溫暖 懇請支持' + String.fromCharCode(10) + '競選主軸：關懷鄰里・服務鄉親');
       }
     }
 
