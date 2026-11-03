@@ -1426,7 +1426,9 @@
     function switchVideo(type) {
       const v = document.getElementById('campaign-video');
       const src = document.getElementById('video-src');
-      src.src = videoFiles[type];
+      const isHttp = window.location.protocol.startsWith('http');
+      const cacheBust = isHttp ? '?v=' + Date.now() : '';
+      src.src = videoFiles[type] + cacheBust;
       v.load();
       v.play().catch(e => {
         src.src = 'E:/115/LIFE/復興村/參選影片/' + type + '.mp4';
