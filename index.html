@@ -836,7 +836,7 @@
       </div>
     </div>
     <div class="nav-actions">
-      <button class="tool-btn primary-video" onclick="openVideoModal('參選')">
+      <button class="tool-btn primary-video" onclick="openVideoModal('閃身步')">
         <span>🎬</span> 參選影片
       </button>
       <button class="tool-btn" onclick="openPosterModal()">
@@ -1015,16 +1015,16 @@
         <span>🎬</span> 1號陳玉媛 參選微電影與競選影片專區
       </h2>
       <div class="video-theater-tabs">
-        <button id="vtab-參選" class="video-tab-btn active" onclick="switchVideo('參選')">📹 《參選篇》返鄉初心</button>
+        <button id="vtab-閃身步" class="video-tab-btn active" onclick="switchVideo('閃身步')">⚡ 《閃身步》靈活服務</button>
+        <button id="vtab-參選" class="video-tab-btn" onclick="switchVideo('參選')">📹 《參選篇》返鄉初心</button>
         <button id="vtab-決心" class="video-tab-btn" onclick="switchVideo('決心')">🔥 《決心篇》勇敢前行</button>
         <button id="vtab-競選" class="video-tab-btn" onclick="switchVideo('競選')">🌟 《競選篇》復興第一</button>
-        <button id="vtab-閃身步" class="video-tab-btn" onclick="switchVideo('閃身步')">⚡ 《閃身步》靈活服務</button>
         <button id="vtab-動起來" class="video-tab-btn" onclick="switchVideo('動起來')">🏃 《動起來》熱情活力</button>
         <button id="vtab-競選活動場" class="video-tab-btn" onclick="switchVideo('競選活動場')">🎪 《競選活動場》團結同行</button>
       </div>
       <div class="video-player-frame">
-        <video id="campaign-video" controls autoplay playsinline>
-          <source id="video-src" src="videos/參選.mp4" type="video/mp4">
+        <video id="campaign-video" poster="videos/poster_閃身步.jpg" controls autoplay playsinline>
+          <source id="video-src" src="videos/閃身步.mp4" type="video/mp4">
           您的瀏覽器不支援影片播放。
         </video>
       </div>
@@ -1402,17 +1402,25 @@
       document.getElementById('poster-modal').classList.add('active');
     }
 
-    // 參選影片專區 (共 6 部影片)
+    // 參選影片專區 (共 6 部影片 + 專屬清晰封面海報)
     const videoFiles = {
+      '閃身步': 'videos/閃身步.mp4',
       '參選': 'videos/參選.mp4',
       '決心': 'videos/決心.mp4',
       '競選': 'videos/競選.mp4',
-      '閃身步': 'videos/閃身步.mp4',
       '動起來': 'videos/動起來.mp4',
       '競選活動場': 'videos/競選活動場.mp4'
     };
+    const videoPosters = {
+      '閃身步': 'videos/poster_閃身步.jpg',
+      '參選': 'videos/poster_參選.jpg',
+      '決心': 'videos/poster_決心.jpg',
+      '競選': 'videos/poster_競選.jpg',
+      '動起來': 'videos/poster_動起來.jpg',
+      '競選活動場': 'videos/poster_競選活動場.jpg'
+    };
 
-    function openVideoModal(type = '參選') {
+    function openVideoModal(type = '閃身步') {
       document.getElementById('video-modal').classList.add('active');
       switchVideo(type);
     }
@@ -1428,13 +1436,27 @@
       const src = document.getElementById('video-src');
       const isHttp = window.location.protocol.startsWith('http');
       const cacheBust = isHttp ? '?v=' + Date.now() : '';
-      src.src = videoFiles[type] + cacheBust;
+      const targetUrl = (videoFiles[type] || ('videos/' + type + '.mp4')) + cacheBust;
+      const targetPoster = (videoPosters[type] || '') + (isHttp ? cacheBust : '');
+
+      v.pause();
+      if (targetPoster) v.poster = targetPoster;
+      v.src = targetUrl;
+      if (src) src.src = targetUrl;
       v.load();
-      v.play().catch(e => {
-        src.src = 'E:/115/LIFE/復興村/參選影片/' + type + '.mp4';
-        v.load();
-        v.play().catch(err => console.log('Playback ready'));
-      });
+
+      const playPromise = v.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.log('播放已就緒：', err);
+          if (!isHttp && window.location.protocol === 'file:') {
+            const localFallback = 'E:/115/LIFE/復興村/參選影片/' + type + '.mp4';
+            v.src = localFallback;
+            if (src) src.src = localFallback;
+            v.load();
+          }
+        });
+      }
 
       document.querySelectorAll('.video-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.id === `vtab-${type}`);
