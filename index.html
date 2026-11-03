@@ -624,19 +624,38 @@
       background: #e2e8f0; color: #0f172a;
     }
 
-    /* 影片彈窗專用 */
+    /* 影片彈窗專用 (自適應 6 部微電影網格排版：電腦版 3x2，手機版 2x3) */
     .video-theater-tabs {
-      display: flex; gap: 8px; margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
     }
     .video-tab-btn {
-      flex: 1; padding: 7px 10px;
-      font-size: 12.5px; font-weight: 700;
+      padding: 7px 5px;
+      font-size: 11.5px;
+      font-weight: 700;
       border-radius: 9px;
       border: 1.5px solid #e2e8f0;
-      background: #f8fafc; color: #475569;
+      background: #f8fafc;
+      color: #475569;
       cursor: pointer;
       text-align: center;
       transition: all 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @media (max-width: 640px) {
+      .video-theater-tabs {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+        margin-bottom: 8px;
+      }
+      .video-tab-btn {
+        font-size: 10px;
+        padding: 6px 3px;
+      }
     }
     .video-tab-btn.active {
       background: #0284c7; color: #fff; border-color: #0284c7;
@@ -999,7 +1018,9 @@
         <button id="vtab-參選" class="video-tab-btn active" onclick="switchVideo('參選')">📹 《參選篇》返鄉初心</button>
         <button id="vtab-決心" class="video-tab-btn" onclick="switchVideo('決心')">🔥 《決心篇》勇敢前行</button>
         <button id="vtab-競選" class="video-tab-btn" onclick="switchVideo('競選')">🌟 《競選篇》復興第一</button>
-        <button id="vtab-閃身步" class="video-tab-btn" onclick="switchVideo('閃身步')">⚡ 《閃身步篇》靈活服務</button>
+        <button id="vtab-閃身步" class="video-tab-btn" onclick="switchVideo('閃身步')">⚡ 《閃身步》靈活服務</button>
+        <button id="vtab-動起來" class="video-tab-btn" onclick="switchVideo('動起來')">🏃 《動起來》熱情活力</button>
+        <button id="vtab-競選活動場" class="video-tab-btn" onclick="switchVideo('競選活動場')">🎪 《競選活動場》團結同行</button>
       </div>
       <div class="video-player-frame">
         <video id="campaign-video" controls autoplay playsinline>
@@ -1381,12 +1402,14 @@
       document.getElementById('poster-modal').classList.add('active');
     }
 
-    // 參選影片專區
+    // 參選影片專區 (共 6 部影片)
     const videoFiles = {
       '參選': 'videos/參選.mp4',
       '決心': 'videos/決心.mp4',
       '競選': 'videos/競選.mp4',
-      '閃身步': 'videos/閃身步.mp4'
+      '閃身步': 'videos/閃身步.mp4',
+      '動起來': 'videos/動起來.mp4',
+      '競選活動場': 'videos/競選活動場.mp4'
     };
 
     function openVideoModal(type = '參選') {
