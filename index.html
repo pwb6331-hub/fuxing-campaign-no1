@@ -1504,39 +1504,61 @@
       showCustomToast(isElder ? '已開啟【長輩大字體模式】，閱讀更輕鬆！' : '已切換回標準字體模式');
     }
 
-    // P2: 親切台灣國語語音問候（點選才播，絕不自動打擾）
+    // P2: 台灣知識型 YouTuber 自然親切語音導覽（真實高音質神經語音 MP3，點選才播）
+    let greetingAudio = null;
     let isSpeakingGreeting = false;
     function playVoiceGreeting() {
-      if (!('speechSynthesis' in window)) {
-        showCustomToast('此瀏覽器不支援語音播報，歡迎直接致電 0937-868-042！');
-        return;
-      }
       const iconEl = document.getElementById('voice-icon');
       if (isSpeakingGreeting) {
-        window.speechSynthesis.cancel();
+        if (greetingAudio) {
+          greetingAudio.pause();
+          greetingAudio.currentTime = 0;
+        }
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         isSpeakingGreeting = false;
         if (iconEl) iconEl.innerText = '🔊';
-        showCustomToast('已暫停語音問候');
+        showCustomToast('已暫停語音導覽');
         return;
       }
-      window.speechSynthesis.cancel();
-      const msg = new SpeechSynthesisUtterance('復興村的各位長輩、鄉親朋友大家好！我是 1 號陳玉媛。改變復興、在地服務，道路安全與長輩照顧，玉媛全力以赴！懇請大家集中選票，唯一支持 1 號陳玉媛，謝謝大家！');
-      msg.lang = 'zh-TW';
-      msg.rate = 0.96;
-      msg.pitch = 1.08;
-      const voices = window.speechSynthesis.getVoices();
-      const twVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('zh-tw'));
-      if (twVoice) msg.voice = twVoice;
-      msg.onstart = () => {
+
+      const isHttp = window.location.protocol.startsWith('http');
+      const audioUrl = 'videos/greeting_yt.mp3' + (isHttp ? '?v=20261124' : '');
+      if (!greetingAudio) {
+        greetingAudio = new Audio(audioUrl);
+        greetingAudio.onended = () => {
+          isSpeakingGreeting = false;
+          if (iconEl) iconEl.innerText = '🔊';
+        };
+        greetingAudio.onerror = () => {
+          isSpeakingGreeting = false;
+          if (iconEl) iconEl.innerText = '🔊';
+        };
+      } else {
+        greetingAudio.src = audioUrl;
+      }
+
+      greetingAudio.play().then(() => {
         isSpeakingGreeting = true;
         if (iconEl) iconEl.innerText = '⏹️';
-        showCustomToast('正在播放 ①號陳玉媛 親切語音問候...');
-      };
-      msg.onend = msg.onerror = () => {
-        isSpeakingGreeting = false;
-        if (iconEl) iconEl.innerText = '🔊';
-      };
-      window.speechSynthesis.speak(msg);
+        showCustomToast('🎙️ 正在播放復興村知識型導覽問候...');
+      }).catch(() => {
+        // 若離線無音檔時平滑備援
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const msg = new SpeechSynthesisUtterance('哈囉大家好，歡迎來到復興村的 3D 互動小島！不知道大家平常走在牛角聚落的時候，有沒有注意過老石階濕滑生苔、沒有扶手，對長輩真的很危險。這次一號陳玉媛把村裡五個最需要改善的路段拍成前後對照圖，放在上面的復興行不行專區裡，讓大家一眼看懂怎麼變更好！懇請大家集中選票，唯一支持一號陳玉媛喔！');
+          msg.lang = 'zh-TW';
+          msg.rate = 1.02;
+          msg.onstart = () => {
+            isSpeakingGreeting = true;
+            if (iconEl) iconEl.innerText = '⏹️';
+          };
+          msg.onend = () => {
+            isSpeakingGreeting = false;
+            if (iconEl) iconEl.innerText = '🔊';
+          };
+          window.speechSynthesis.speak(msg);
+        }
+      });
     }
 
     // ==========================================
