@@ -165,6 +165,27 @@
       border: none;
       box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
     }
+    .tool-btn.primary-fb {
+      background: linear-gradient(135deg, #1877f2, #0d5bd9);
+      color: #fff;
+      border: none;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(24, 119, 242, 0.35);
+    }
+    .tool-btn.primary-fb:hover {
+      background: linear-gradient(135deg, #166fe5, #0a4ec2);
+    }
+    .fb-pill-link {
+      display: inline-flex; align-items: center; gap: 3px;
+      background: #eff6ff; color: #1877f2;
+      border: 1px solid #bfdbfe;
+      padding: 1px 7px; border-radius: 999px;
+      font-weight: 800; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .fb-pill-link:hover {
+      background: #1877f2; color: #fff;
+    }
     .tool-btn.primary-policy {
       background: linear-gradient(135deg, #e11d48, #be123c);
       color: #fff;
@@ -1085,7 +1106,7 @@
       </div>
       <div class="nav-title-group">
         <h1>復興村長候選人 ①號 陳玉媛 競選行銷總部</h1>
-        <p>在地服務 ✦ 改變復興 ✦ <a href="tel:0937868042" class="call-pill-link" title="點擊立即撥打服務專線">📞 0937-868-042</a></p>
+        <p>在地服務 ✦ 改變復興 ✦ <a href="tel:0937868042" class="call-pill-link" title="點擊立即撥打服務專線">📞 0937-868-042</a> <a href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" class="fb-pill-link" title="前往陳玉媛臉書按讚追蹤">📘 玉媛臉書</a></p>
       </div>
     </div>
     <div class="nav-actions">
@@ -1101,6 +1122,9 @@
       <button class="tool-btn primary-share" onclick="shareCampaign()">
         <span>📤</span> 分享親友
       </button>
+      <a class="tool-btn primary-fb" href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" title="開啟陳玉媛臉書專頁">
+        <span>📘</span> 臉書專頁
+      </a>
       <button class="tool-btn" onclick="playVoiceGreeting()" title="點擊聆聽玉媛親切語音問候">
         <span id="voice-icon">🔊</span> 問候
       </button>
@@ -1330,8 +1354,9 @@
         </div>
       </div>
       <div class="policy-cta-row">
-        <a href="tel:0937868042" class="tool-btn primary-policy">📞 立即致電 0937-868-042</a>
-        <button class="tool-btn primary-share" onclick="shareCampaign()">📤 轉傳政見給復興親友</button>
+        <a href="tel:0937868042" class="tool-btn primary-policy">📞 立即致電</a>
+        <a href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" class="tool-btn primary-fb">📘 追蹤玉媛臉書</a>
+        <button class="tool-btn primary-share" onclick="shareCampaign()">📤 轉傳給親友</button>
       </div>
     </div>
   </div>
@@ -1373,6 +1398,9 @@
       <div style="margin-top: 12px;">
         <h3 style="font-size: 15px; font-weight: 900; color: #e11d48;">給年輕人一個機會！①號 陳玉媛 懇請賜票</h3>
         <p style="font-size: 12px; color: #475569; margin-top: 3px;">南竿鄉復興村（牛角村）村長候選人 服務專線：0937-868-042</p>
+        <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: center;">
+          <a href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" class="tool-btn primary-fb" style="padding: 7px 14px;">📘 前往陳玉媛臉書按讚追蹤</a>
+        </div>
       </div>
     </div>
   </div>
