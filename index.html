@@ -2474,6 +2474,160 @@
     scene.add(campaignPlaneGroup);
 
     // =========================================================================
+    // 🚁 3D 競選直升機 + 垂掛巨幅「實際投票圖」（中高空逆時針環繞飛行）
+    // =========================================================================
+    const campaignHeliGroup = new THREE.Group();
+    const heliCabin = new THREE.Mesh(new THREE.SphereGeometry(0.42, 14, 10), fuselageMat);
+    heliCabin.scale.set(0.85, 0.85, 1.45);
+    campaignHeliGroup.add(heliCabin);
+
+    const heliGlass = new THREE.Mesh(new THREE.SphereGeometry(0.36, 12, 8), blueGlassMat);
+    heliGlass.scale.set(0.82, 0.72, 1.05);
+    heliGlass.position.set(0, 0.08, 0.24);
+    campaignHeliGroup.add(heliGlass);
+
+    const heliStripe = new THREE.Mesh(new THREE.BoxGeometry(0.74, 0.12, 0.82), redAccentMat);
+    heliStripe.position.set(0, -0.06, -0.05);
+    campaignHeliGroup.add(heliStripe);
+
+    // 直升機尾桁與垂直紅尾翼
+    const heliBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1.55, 8), fuselageMat);
+    heliBoom.rotation.x = Math.PI / 2;
+    heliBoom.position.set(0, 0.05, -1.15);
+    const heliFin = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.48, 0.26), redAccentMat);
+    heliFin.position.set(0, 0.22, -1.85);
+    campaignHeliGroup.add(heliBoom, heliFin);
+
+    // 雙側金屬起落架滑橇
+    [-0.36, 0.36].forEach(sx => {
+      const skid = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.25, 6), darkMetalMat);
+      skid.rotation.x = Math.PI / 2;
+      skid.position.set(sx, -0.46, 0.05);
+      const strut1 = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.32, 6), darkMetalMat);
+      strut1.position.set(sx * 0.85, -0.32, 0.28);
+      const strut2 = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.32, 6), darkMetalMat);
+      strut2.position.set(sx * 0.85, -0.32, -0.22);
+      campaignHeliGroup.add(skid, strut1, strut2);
+    });
+
+    // 主旋翼（高速水平旋轉）
+    const heliMast = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.055, 0.26, 8), darkMetalMat);
+    heliMast.position.set(0, 0.44, 0);
+    campaignHeliGroup.add(heliMast);
+    const heliMainRotor = new THREE.Group();
+    heliMainRotor.position.set(0, 0.56, 0);
+    const hBlade1 = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.03, 0.12), darkMetalMat);
+    const hBlade2 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.03, 2.55), darkMetalMat);
+    const hHub = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.08, 8), new THREE.MeshLambertMaterial({ color: 0xf59e0b }));
+    heliMainRotor.add(hBlade1, hBlade2, hHub);
+    campaignHeliGroup.add(heliMainRotor);
+
+    // 垂直尾旋翼
+    const heliTailRotor = new THREE.Group();
+    heliTailRotor.position.set(0.08, 0.22, -1.88);
+    const tBlade = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.48, 0.06), darkMetalMat);
+    heliTailRotor.add(tBlade);
+    campaignHeliGroup.add(heliTailRotor);
+
+    // 直升機垂掛「實際投票圖」大掛軸（雙纜繩 + 上下金桿 + 雙面高清選票）
+    const heliRope1 = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-0.32, -0.46, 0), new THREE.Vector3(-0.95, -1.35, 0)]),
+      ropeMat
+    );
+    const heliRope2 = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0.32, -0.46, 0), new THREE.Vector3(0.95, -1.35, 0)]),
+      ropeMat
+    );
+    const heliGoldBarMat = new THREE.MeshLambertMaterial({ color: 0xf59e0b });
+    const heliTopBar = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 2.38, 8), heliGoldBarMat);
+    heliTopBar.rotation.z = Math.PI / 2;
+    heliTopBar.position.set(0, -1.35, 0);
+    const heliBotBar = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 2.38, 8), heliGoldBarMat);
+    heliBotBar.rotation.z = Math.PI / 2;
+    heliBotBar.position.set(0, -4.35, 0);
+
+    const heliBannerGeo = new THREE.PlaneGeometry(2.28, 3.0, 8, 4);
+    const heliBannerBasePos = heliBannerGeo.attributes.position.array.slice();
+    const heliBanner = new THREE.Mesh(heliBannerGeo, bannerMat);
+    heliBanner.position.set(0, -2.85, 0);
+    campaignHeliGroup.add(heliRope1, heliRope2, heliTopBar, heliBotBar, heliBanner);
+    scene.add(campaignHeliGroup);
+
+    // =========================================================================
+    // 🛸 3D 競選四軸無人機 + 懸掛「實際投票圖」（外圍靈活中低空環繞巡航）
+    // =========================================================================
+    const campaignDroneGroup = new THREE.Group();
+    const droneBody = new THREE.Mesh(
+      new THREE.BoxGeometry(0.62, 0.18, 0.62),
+      new THREE.MeshLambertMaterial({ color: 0xf8fafc })
+    );
+    const droneTopCap = new THREE.Mesh(
+      new THREE.BoxGeometry(0.46, 0.08, 0.46),
+      redAccentMat
+    );
+    droneTopCap.position.y = 0.12;
+    const droneCam = new THREE.Mesh(new THREE.SphereGeometry(0.11, 8, 8), darkMetalMat);
+    droneCam.position.set(0, -0.12, 0.16);
+    campaignDroneGroup.add(droneBody, droneTopCap, droneCam);
+
+    // 4 根 X 型機臂 + 保護環 + 4 組高速旋轉旋翼 + LED 航行燈
+    const droneRotors = [];
+    const armAngles = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4];
+    const guardMat = new THREE.MeshLambertMaterial({ color: 0x0284c7 });
+    armAngles.forEach((ang, idx) => {
+      const ax = Math.cos(ang) * 0.68;
+      const az = Math.sin(ang) * 0.68;
+
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.88, 0.06, 0.08), darkMetalMat);
+      arm.position.set(ax * 0.5, 0, az * 0.5);
+      arm.rotation.y = -ang;
+      campaignDroneGroup.add(arm);
+
+      const guard = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.03, 6, 18), guardMat);
+      guard.rotation.x = Math.PI / 2;
+      guard.position.set(ax, 0.06, az);
+      campaignDroneGroup.add(guard);
+
+      const rotor = new THREE.Group();
+      rotor.position.set(ax, 0.08, az);
+      const rBlade = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.02, 0.06), darkMetalMat);
+      rotor.add(rBlade);
+      campaignDroneGroup.add(rotor);
+      droneRotors.push(rotor);
+
+      // 前紅後綠 LED 科技航行燈
+      const led = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045, 6, 6),
+        new THREE.MeshBasicMaterial({ color: (idx < 2) ? 0xef4444 : 0x22c55e })
+      );
+      led.position.set(ax, -0.04, az);
+      campaignDroneGroup.add(led);
+    });
+
+    // 無人機垂直懸掛「實際投票圖」精品吊旗
+    const dRope1 = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-0.22, -0.09, 0), new THREE.Vector3(-0.78, -0.82, 0)]),
+      ropeMat
+    );
+    const dRope2 = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0.22, -0.09, 0), new THREE.Vector3(0.78, -0.82, 0)]),
+      ropeMat
+    );
+    const droneTopBar = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.98, 8), heliGoldBarMat);
+    droneTopBar.rotation.z = Math.PI / 2;
+    droneTopBar.position.set(0, -0.82, 0);
+    const droneBotBar = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.98, 8), heliGoldBarMat);
+    droneBotBar.rotation.z = Math.PI / 2;
+    droneBotBar.position.set(0, -3.32, 0);
+
+    const droneBannerGeo = new THREE.PlaneGeometry(1.9, 2.5, 6, 4);
+    const droneBannerBasePos = droneBannerGeo.attributes.position.array.slice();
+    const droneBanner = new THREE.Mesh(droneBannerGeo, bannerMat);
+    droneBanner.position.set(0, -2.07, 0);
+    campaignDroneGroup.add(dRope1, dRope2, droneTopBar, droneBotBar, droneBanner);
+    scene.add(campaignDroneGroup);
+
+    // =========================================================================
     // 🚤 寫實馬祖傳統小漁船（尖頭船艏 + 藍白船身 + 駕駛棚 + 船桅紅旗）
     // =========================================================================
     const boatGroup = new THREE.Group();
@@ -2584,6 +2738,53 @@
         posAttr.setXYZ(i, bx, by, wave);
       }
       posAttr.needsUpdate = true;
+
+      // 🚁 3D 競選直升機外掛「實際投票圖」中高空逆時針環繞飛行
+      const hRx = 8.4;
+      const hRz = 7.4;
+      const hSpeed = -0.36;
+      const hAngle = t * hSpeed + 1.2;
+      const hx = Math.cos(hAngle) * hRx;
+      const hz = Math.sin(hAngle) * hRz;
+      const hy = 7.35 + Math.sin(t * 1.65 + 1.5) * 0.55;
+      const hNext = hAngle - 0.05;
+      campaignHeliGroup.position.set(hx, hy, hz);
+      campaignHeliGroup.lookAt(Math.cos(hNext) * hRx, hy, Math.sin(hNext) * hRz);
+      heliMainRotor.rotation.y += 0.55;
+      heliTailRotor.rotation.x += 0.72;
+
+      const hPos = heliBannerGeo.attributes.position;
+      for (let i = 0; i < hPos.count; i++) {
+        const bx = heliBannerBasePos[i * 3];
+        const by = heliBannerBasePos[i * 3 + 1];
+        const wave = Math.sin(by * 1.8 - t * 5.2) * 0.12;
+        hPos.setXYZ(i, bx, by, wave);
+      }
+      hPos.needsUpdate = true;
+
+      // 🛸 3D 競選無人機外掛「實際投票圖」外圍靈活中低空巡航
+      const dRx = 7.2;
+      const dRz = 9.6;
+      const dSpeed = 0.52;
+      const dAngle = t * dSpeed + Math.PI;
+      const dx = Math.cos(dAngle) * dRx;
+      const dz = Math.sin(dAngle) * dRz;
+      const dy = 3.25 + Math.sin(t * 2.3) * 0.48;
+      const dNext = dAngle + 0.05;
+      campaignDroneGroup.position.set(dx, dy, dz);
+      campaignDroneGroup.lookAt(Math.cos(dNext) * dRx, dy, Math.sin(dNext) * dRz);
+      droneRotors.forEach((r, idx) => {
+        r.rotation.y += (idx % 2 === 0 ? 0.65 : -0.65);
+      });
+
+      const dPos = droneBannerGeo.attributes.position;
+      for (let i = 0; i < dPos.count; i++) {
+        const bx = droneBannerBasePos[i * 3];
+        const by = droneBannerBasePos[i * 3 + 1];
+        const wave = Math.sin(by * 2.1 - t * 6.0) * 0.1;
+        dPos.setXYZ(i, bx, by, wave);
+      }
+      dPos.needsUpdate = true;
 
       // 寫實小漁船隨浪搖曳航行
       boatGroup.position.x = 6.4 + Math.sin(t * 0.65) * 1.2;
