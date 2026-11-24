@@ -1994,84 +1994,204 @@
     handrail.rotation.x = Math.PI / 2 - 0.34;
     handrail.position.set(0.5, 0.9, -0.95);
     stairGroup.add(handrail);
-    stairGroup.position.set(1.4, 1.4, 4.8);
-    stairGroup.rotation.y = 0.28;
+    stairGroup.position.set(-3.6, 1.4, 4.2);
+    stairGroup.rotation.y = -0.68;
     islandGroup.add(stairGroup);
 
     // =========================================================================
-    // 🔥 3D 地景高解析看板生成函數 (字體清晰思源黑體 + 雙層立體邊框) 🔥
+    // ✨ 雙層同心圓弧形時尚地景鑲嵌環帶（精品建築整體性設計） ✨
+    // 取代零散矩形貼片，以 2048px 高解析弧形排版完美貼合島嶼雙層圓弧台地
     // =========================================================================
-    function create3DGroundTextSign(text, bgColor = 'rgba(255, 255, 255, 0.98)', textColor = '#e11d48', strokeColor = '#f59e0b', w = 4.6, h = 1.3) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1024;
-      canvas.height = 280;
-      const ctx = canvas.getContext('2d');
+    function drawCurvedText(ctx, text, cx, cy, radius, centerAngle, charSpacingRad, fontStr, fillStyle, strokeStyle, strokeWidth, badgeFirstChar = false) {
+      const chars = Array.from(text);
+      const totalSpan = (chars.length - 1) * charSpacingRad;
+      const startAngle = centerAngle + totalSpan / 2;
 
-      ctx.fillStyle = bgColor;
-      ctx.strokeStyle = strokeColor;
-      ctx.lineWidth = 16;
-      const r = 38;
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.lineTo(canvas.width - r, 0);
-      ctx.quadraticCurveTo(canvas.width, 0, canvas.width, r);
-      ctx.lineTo(canvas.width, canvas.height - r);
-      ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - r, canvas.height);
-      ctx.lineTo(r, canvas.height);
-      ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - r);
-      ctx.lineTo(0, r);
-      ctx.quadraticCurveTo(0, 0, r, 0);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.strokeStyle = '#fbbf24';
-      ctx.lineWidth = 5;
-      ctx.stroke();
-
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.28)';
-      ctx.shadowBlur = 12;
-      ctx.shadowOffsetX = 3;
-      ctx.shadowOffsetY = 4;
-      ctx.fillStyle = textColor;
-      ctx.font = '900 115px "Noto Sans TC", "Source Han Sans TC", "PingFang TC", sans-serif';
+      ctx.save();
+      ctx.font = fontStr;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      chars.forEach((ch, idx) => {
+        const a = startAngle - idx * charSpacingRad;
+        const x = cx + Math.cos(a) * radius;
+        const y = cy + Math.sin(a) * radius;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(a - Math.PI / 2);
+
+        if (badgeFirstChar && idx === 0) {
+          // 專屬緋紅圓形「1」號精品徽章
+          ctx.beginPath();
+          ctx.arc(0, 0, 56, 0, Math.PI * 2);
+          ctx.fillStyle = '#e11d48';
+          ctx.fill();
+          ctx.lineWidth = 6;
+          ctx.strokeStyle = '#fbbf24';
+          ctx.stroke();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 76px "Noto Sans TC", "Source Han Sans TC", sans-serif';
+          ctx.shadowColor = 'rgba(0,0,0,0.28)';
+          ctx.shadowBlur = 8;
+          ctx.fillText('1', 0, 3);
+        } else {
+          ctx.font = fontStr;
+          if (strokeStyle && strokeWidth > 0) {
+            ctx.lineWidth = strokeWidth;
+            ctx.strokeStyle = strokeStyle;
+            ctx.strokeText(ch, 0, 0);
+          }
+          ctx.shadowColor = 'rgba(15, 23, 42, 0.25)';
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 3;
+          ctx.fillStyle = fillStyle;
+          ctx.fillText(ch, 0, 0);
+        }
+        ctx.restore();
+      });
+      ctx.restore();
+    }
+
+    function createFashionRingBand(opts) {
+      const size = 2048;
+      const cx = size / 2;
+      const cy = size / 2;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      const pxOuter = size * 0.498;
+      const pxInner = pxOuter * (opts.rInner / opts.rOuter);
+      const pxMid = (pxOuter + pxInner) / 2;
+
+      // 1. 環帶底色（高級漸層質感）
+      const grad = ctx.createRadialGradient(cx, cy, pxInner, cx, cy, pxOuter);
+      grad.addColorStop(0, opts.bgInner);
+      grad.addColorStop(0.5, opts.bgMid);
+      grad.addColorStop(1, opts.bgOuter);
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, pxOuter, 0, Math.PI * 2);
+      ctx.arc(cx, cy, pxInner, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // 2. 精緻香檳金雙細框邊線
+      [pxOuter - 8, pxOuter - 20, pxInner + 20, pxInner + 8].forEach((rr, idx) => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, rr, 0, Math.PI * 2);
+        ctx.strokeStyle = (idx === 0 || idx === 3) ? opts.borderOuter : opts.borderInner;
+        ctx.lineWidth = (idx === 0 || idx === 3) ? 9 : 3.5;
+        ctx.stroke();
+      });
+
+      // 3. 均勻配置 3 組主標語（120° 等距，正面對準鏡頭 +45° 黃金視角）與 3 組精品裝飾星芒
+      const baseAngle = Math.PI / 4;
+      for (let k = 0; k < 3; k++) {
+        const mainAngle = baseAngle + k * (Math.PI * 2 / 3);
+        drawCurvedText(
+          ctx,
+          opts.mainText,
+          cx, cy, pxMid,
+          mainAngle,
+          opts.charSpacing,
+          opts.mainFont,
+          opts.textColor,
+          opts.textStroke,
+          opts.textStrokeW,
+          opts.badgeFirstChar
+        );
+
+        // 標語間隙點綴精品小標與星芒（錯開 60°）
+        const divAngle = mainAngle + Math.PI / 3;
+        drawCurvedText(
+          ctx,
+          opts.subText,
+          cx, cy, pxMid,
+          divAngle,
+          opts.subSpacing,
+          opts.subFont,
+          opts.subColor,
+          null, 0, false
+        );
+      }
 
       const texture = new THREE.CanvasTexture(canvas);
-      texture.minFilter = THREE.LinearFilter;
-      const mat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+
+      const ringGeo = new THREE.RingGeometry(opts.rInner, opts.rOuter, 96);
+      const ringMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const mesh = new THREE.Mesh(ringGeo, ringMat);
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.y = opts.y;
       return mesh;
     }
 
-    // 最外圈第一層外圈淺綠色上：完整平放 3 個「①號陳玉媛」圖塊
-    const outerSignsConfig = [
-      { x: 4.80, y: 1.42, z: 4.80, rotZ: -Math.PI / 4 },
-      { x: -6.57, y: 1.42, z: 1.76, rotZ: Math.PI * 0.42 },
-      { x: 1.76, y: 1.42, z: -6.57, rotZ: -Math.PI * 0.92 }
-    ];
-    outerSignsConfig.forEach((cfg) => {
-      const sign = create3DGroundTextSign('①號陳玉媛', 'rgba(255, 255, 255, 0.98)', '#0284c7', '#e11d48', 4.8, 1.45);
-      sign.position.set(cfg.x, cfg.y, cfg.z);
-      sign.rotation.x = -Math.PI / 2;
-      sign.rotation.z = cfg.rotZ;
-      islandGroup.add(sign);
+    // 🌟 外圈時尚環帶（第一層台地）：象牙白珍珠質感 × 香檳金雙細框 × 深海藍「①號陳玉媛」
+    const outerFashionRing = createFashionRingBand({
+      rInner: 6.18,
+      rOuter: 7.98,
+      y: 1.43,
+      bgInner: 'rgba(255, 255, 255, 0.96)',
+      bgMid: 'rgba(248, 250, 252, 0.94)',
+      bgOuter: 'rgba(241, 245, 249, 0.96)',
+      borderOuter: '#d97706',
+      borderInner: '#e11d48',
+      mainText: '1號陳玉媛',
+      charSpacing: 0.148,
+      mainFont: '900 106px "Noto Sans TC", "Source Han Sans TC", "PingFang TC", sans-serif',
+      textColor: '#0369a1',
+      textStroke: '#ffffff',
+      textStrokeW: 4,
+      badgeFirstChar: true,
+      subText: '✦ 復興第一 NO.1 ✦',
+      subSpacing: 0.052,
+      subFont: '700 42px "Noto Sans TC", "Source Han Sans TC", sans-serif',
+      subColor: '#b45309'
     });
+    islandGroup.add(outerFashionRing);
 
-    // 第二圈上：完整平放 3 個「復興村GOGOGO」圖塊
-    const innerSignsConfig = [
-      { x: 4.20, y: 2.07, z: -1.10, rotZ: -Math.PI * 0.35 },
-      { x: -1.10, y: 2.07, z: 4.20, rotZ: Math.PI * 0.15 },
-      { x: -3.00, y: 2.07, z: -3.00, rotZ: Math.PI * 0.75 }
-    ];
-    innerSignsConfig.forEach((cfg) => {
-      const sign = create3DGroundTextSign('復興村GOGOGO', 'rgba(255, 255, 255, 0.98)', '#e11d48', '#f59e0b', 5.0, 1.45);
-      sign.position.set(cfg.x, cfg.y, cfg.z);
-      sign.rotation.x = -Math.PI / 2;
-      sign.rotation.z = cfg.rotZ;
-      islandGroup.add(sign);
+    // 🌟 中圈時尚環帶（第二層高台）：高訂緋紅漸層 × 香檳金雙框 × 純白金影「復興村 GOGOGO」
+    const innerFashionRing = createFashionRingBand({
+      rInner: 4.18,
+      rOuter: 5.66,
+      y: 2.08,
+      bgInner: 'rgba(190, 18, 60, 0.95)',
+      bgMid: 'rgba(225, 29, 72, 0.94)',
+      bgOuter: 'rgba(159, 18, 57, 0.96)',
+      borderOuter: '#fbbf24',
+      borderInner: '#fef08a',
+      mainText: '復興村GOGOGO',
+      charSpacing: 0.125,
+      mainFont: '900 104px "Noto Sans TC", "Source Han Sans TC", "PingFang TC", sans-serif',
+      textColor: '#ffffff',
+      textStroke: '#881337',
+      textStrokeW: 5,
+      badgeFirstChar: false,
+      subText: '✦ 改變復興 ✦',
+      subSpacing: 0.075,
+      subFont: '700 48px "Noto Sans TC", "Source Han Sans TC", sans-serif',
+      subColor: '#fde68a'
+    });
+    islandGroup.add(innerFashionRing);
+
+    // 立體香檳金金屬鑲邊細環（強化 3D 光影建築整體感）
+    const trimGoldMat = new THREE.MeshLambertMaterial({ color: 0xfbbf24, emissive: 0x78350f, emissiveIntensity: 0.25 });
+    [[7.98, 1.44], [6.18, 1.44], [5.66, 2.09], [4.18, 2.09]].forEach(([tr, ty]) => {
+      const trim = new THREE.Mesh(new THREE.TorusGeometry(tr, 0.045, 8, 96), trimGoldMat);
+      trim.rotation.x = Math.PI / 2;
+      trim.position.y = ty;
+      islandGroup.add(trim);
     });
 
     // ==================================================================================
@@ -2182,7 +2302,7 @@
       [2.3,  2.65, -0.8, -0.8, 0.80],
       [-0.7, 3.75, -2.5, 0.15, 0.85],
       [1.5,  3.35, -2.5, -0.45, 0.82],
-      [-3.3, 2.45, 1.5, 0.7, 0.76]
+      [-2.7, 2.45, 1.3, 0.7, 0.76]
     ];
     houseCoords.forEach((coord, i) => {
       const h = createMatsuStoneHouse(coord[0], coord[1], coord[2], coord[3], coord[4], i);
