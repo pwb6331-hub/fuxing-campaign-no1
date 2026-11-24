@@ -1222,6 +1222,492 @@
         display: block !important;
       }
     }
+
+    /* ============================================================== */
+    /* ✨ v2.0 時尚實體生活物件模組 × 互動圖層控制台 × 全裝置觸控優化 ✨ */
+    /* ============================================================== */
+    .hotspot-card {
+      padding: 4px 10px 4px 4px !important;
+      border-radius: 16px !important;
+      gap: 7px !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #0f172a !important;
+      border: 2px solid rgba(255, 255, 255, 0.98) !important;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.06) !important;
+    }
+    .hotspot-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #f8fafc;
+      border: 1.5px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.16);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .island-hotspot:hover .hotspot-thumb {
+      transform: scale(1.16) rotate(-3deg);
+    }
+    .hotspot-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .hotspot-label-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .hotspot-sub {
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      color: #475569 !important;
+      background: rgba(15, 23, 42, 0.06) !important;
+      padding: 1px 6px !important;
+      border-radius: 999px !important;
+      margin-left: 0 !important;
+      margin-top: 2px;
+    }
+    .hotspot-stamp-check {
+      display: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.45);
+    }
+    .island-hotspot.visited .hotspot-stamp-check { display: inline-flex; }
+    .hs-policy .hotspot-card { border-left: 4px solid #e11d48 !important; }
+    .hs-road .hotspot-card   { border-left: 4px solid #f59e0b !important; }
+    .hs-video .hotspot-card  { border-left: 4px solid #0284c7 !important; }
+    .hs-fb .hotspot-card     { border-left: 4px solid #1877f2 !important; }
+    .hs-share .hotspot-card  { border-left: 4px solid #10b981 !important; }
+    .hs-voice .hotspot-card  { border-left: 4px solid #8b5cf6 !important; }
+    .hs-poster .hotspot-card { border-left: 4px solid #ec4899 !important; }
+
+    /* 右側可收合「時尚實體物件 & 圖層互動控制台」 */
+    #studio-toggle-fab {
+      position: fixed;
+      top: 94px;
+      right: 16px;
+      z-index: 48;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.92);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.92));
+      color: #ffffff;
+      font-family: var(--font-main);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.34);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #studio-toggle-fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.45);
+    }
+    #studio-toggle-fab .fab-badge {
+      background: linear-gradient(135deg, #f43f5e, #f59e0b);
+      color: #fff;
+      font-size: 10px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    #module-studio-panel {
+      position: fixed;
+      top: 142px;
+      right: 16px;
+      width: 288px;
+      max-height: calc(100vh - 164px);
+      z-index: 47;
+      background: rgba(255, 255, 255, 0.93);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(255, 255, 255, 0.96);
+      border-radius: 22px;
+      box-shadow: 0 20px 48px rgba(15, 23, 42, 0.28);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+    }
+    #module-studio-panel.collapsed {
+      transform: translateX(340px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .studio-header {
+      padding: 11px 14px;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .studio-header-title {
+      font-size: 13px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .studio-close-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .studio-close-btn:hover { background: rgba(244, 63, 94, 0.9); }
+
+    .studio-body {
+      padding: 10px 12px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stamp-progress-card {
+      background: linear-gradient(135deg, #fff1f2, #fffbeb);
+      border: 1.5px solid #fecdd3;
+      border-radius: 14px;
+      padding: 9px 11px;
+    }
+    .stamp-progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 900;
+      color: #9f1239;
+      margin-bottom: 6px;
+    }
+    .stamp-bar-track {
+      width: 100%;
+      height: 7px;
+      background: rgba(225, 29, 72, 0.14);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .stamp-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f43f5e, #f59e0b);
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .studio-section-label {
+      font-size: 11px;
+      font-weight: 900;
+      color: #64748b;
+      letter-spacing: 0.03em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .studio-modules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .studio-mod-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 7px 6px 8px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
+    }
+    .studio-mod-card:hover {
+      transform: translateY(-2px);
+      border-color: #f43f5e;
+      box-shadow: 0 8px 18px rgba(225, 29, 72, 0.16);
+    }
+    .studio-mod-card.visited {
+      border-color: #10b981;
+      background: linear-gradient(180deg, #ffffff, #ecfdf5);
+    }
+    .studio-mod-card img {
+      width: 66px;
+      height: 66px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 5px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      background: #f8fafc;
+    }
+    .studio-mod-name {
+      font-size: 11.5px;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+    .studio-mod-sub {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .studio-mod-done {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .studio-mod-card.visited .studio-mod-done { display: flex; }
+
+    .layer-toggles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .layer-toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 9px;
+      border-radius: 11px;
+      border: 1.5px solid #e2e8f0;
+      background: #f8fafc;
+      font-family: var(--font-main);
+      font-size: 11px;
+      font-weight: 800;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .layer-toggle-btn.active {
+      background: #0f172a;
+      color: #fff;
+      border-color: #0f172a;
+    }
+    .layer-toggle-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+    .layer-toggle-btn.active .layer-toggle-dot {
+      background: #34d399;
+      box-shadow: 0 0 6px #34d399;
+    }
+
+    /* 純淨 3D 瀏覽模式 */
+    body.pure-3d-mode #top-nav,
+    body.pure-3d-mode #left-bottom-dashboard,
+    body.pure-3d-mode #module-studio-panel,
+    body.pure-3d-mode #studio-toggle-fab,
+    body.pure-3d-mode #mobile-thumb-dock,
+    body.pure-3d-mode #center-hero-container {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: opacity 0.28s ease;
+    }
+    #pure3d-exit-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      z-index: 90;
+      padding: 11px 22px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      background: linear-gradient(135deg, #e11d48, #f59e0b);
+      color: #fff;
+      font-family: var(--font-main);
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(225, 29, 72, 0.42);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    body.pure-3d-mode #pure3d-exit-btn {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 實體物件圖鑑彈窗 */
+    .object-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .gallery-obj-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .gallery-obj-card:hover {
+      transform: translateY(-4px);
+      border-color: #f43f5e;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+    }
+    .gallery-obj-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: #f8fafc;
+    }
+    .gallery-obj-info { padding: 9px 10px 10px; }
+    .gallery-obj-title { font-size: 13px; font-weight: 900; color: #0f172a; margin-bottom: 2px; }
+    .gallery-obj-desc { font-size: 11px; color: #64748b; line-height: 1.4; }
+
+    /* 手機／平板 單手拇指區實體物件導覽列 */
+    #mobile-thumb-dock { display: none; }
+
+    @media (max-width: 1120px) {
+      #studio-toggle-fab {
+        top: auto;
+        bottom: 146px;
+        right: 12px;
+        padding: 8px 13px;
+        font-size: 12px;
+      }
+      #module-studio-panel {
+        top: auto;
+        bottom: 192px;
+        right: 12px;
+        width: min(320px, calc(100vw - 24px));
+        max-height: 55vh;
+      }
+      .object-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      #top-nav { padding: 7px 10px !important; gap: 6px !important; }
+      .nav-actions { gap: 6px !important; }
+      .tool-btn {
+        min-height: 36px;
+        padding: 6px 10px !important;
+        font-size: 11.5px !important;
+        border-radius: 12px !important;
+      }
+      .hotspot-card {
+        padding: 3px 8px 3px 3px !important;
+        border-radius: 12px !important;
+        gap: 5px !important;
+      }
+      .hotspot-thumb { width: 26px; height: 26px; border-radius: 8px; }
+      .hotspot-label-row { font-size: 10px; }
+      #mobile-thumb-dock {
+        display: flex;
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        z-index: 52;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1.5px solid rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.28);
+        padding: 7px 8px;
+        gap: 7px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        align-items: center;
+      }
+      #mobile-thumb-dock::-webkit-scrollbar { display: none; }
+      .thumb-dock-item {
+        flex: 0 0 auto;
+        min-width: 66px;
+        min-height: 58px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 4px 6px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        cursor: pointer;
+        font-family: var(--font-main);
+        transition: transform 0.16s ease, border-color 0.16s ease;
+      }
+      .thumb-dock-item:active { transform: scale(0.93); }
+      .thumb-dock-item.visited { border-color: #10b981; background: #ecfdf5; }
+      .thumb-dock-item img {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        object-fit: cover;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+      }
+      .thumb-dock-item span {
+        font-size: 10px;
+        font-weight: 900;
+        color: #0f172a;
+        white-space: nowrap;
+      }
+      #left-bottom-dashboard { bottom: 84px !important; }
+      .stickers-dock { display: none; }
+      body.show-mobile-stickers .stickers-dock { display: block; }
+      #studio-toggle-fab {
+        bottom: 132px;
+        right: 10px;
+        padding: 7px 11px;
+        font-size: 11px;
+      }
+      #module-studio-panel {
+        bottom: 178px;
+        right: 8px;
+        left: 8px;
+        width: auto;
+        max-height: 52vh;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1271,6 +1757,12 @@
       </button>
       <button class="tool-btn" onclick="toggleTimeOfDay()">
         <span id="tod-icon">☀️</span> 氛圍
+      </button>
+      <button class="tool-btn" style="background:linear-gradient(135deg,#0f172a,#334155);color:#fff;border-color:#475569;" onclick="openObjectGalleryModal()" title="開啟時尚生活實體物件圖鑑">
+        <span>🧊</span> 實體圖鑑
+      </button>
+      <button class="tool-btn" id="pure3d-nav-btn" onclick="togglePure3DMode()" title="一鍵隱藏周邊面板，純淨旋轉3D島嶼">
+        <span>👁️</span> 純淨3D
       </button>
       <button class="tool-btn" onclick="resetCameraView()">
         <span>🎯</span> 重設
@@ -1565,6 +2057,80 @@
         <div style="margin-top: 10px; display: flex; gap: 8px; justify-content: center;">
           <a href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" class="tool-btn primary-fb" style="padding: 7px 14px;">📘 前往陳玉媛臉書按讚追蹤</a>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 🎛️ 右側可收合：時尚實體物件導覽 × 3D 圖層互動控制台 -->
+  <button id="studio-toggle-fab" onclick="toggleStudioPanel()" title="展開或收合實體物件與圖層控制台">
+    <span>🎛️</span>
+    <span>圖層與實體模組</span>
+    <span class="fab-badge" id="fab-stamp-badge">0/6</span>
+  </button>
+
+  <aside id="module-studio-panel" class="collapsed" aria-label="實體物件與圖層控制台">
+    <div class="studio-header">
+      <div class="studio-header-title">
+        <span>✨</span>
+        <span>復興村實體生活圖層</span>
+      </div>
+      <button class="studio-close-btn" onclick="toggleStudioPanel()" title="收合面板">✕</button>
+    </div>
+    <div class="studio-body">
+      <div class="stamp-progress-card">
+        <div class="stamp-progress-top">
+          <span>🏅 逛復興集章探索</span>
+          <span id="stamp-count-text">0 / 6 完成</span>
+        </div>
+        <div class="stamp-bar-track">
+          <div class="stamp-bar-fill" id="stamp-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="studio-section-label">
+        <span>🧊 點擊實體物件・鏡頭飛越對焦</span>
+        <span style="color:#e11d48;cursor:pointer;" onclick="openObjectGalleryModal()">看大圖 ↗</span>
+      </div>
+      <div class="studio-modules-grid" id="studio-modules-grid"></div>
+
+      <div class="studio-section-label">
+        <span>🗺️ 3D 場景圖層開關</span>
+      </div>
+      <div class="layer-toggles-grid">
+        <button class="layer-toggle-btn active" id="lyr-btn-hotspots" onclick="toggleLayer('hotspots')">
+          <span>🏷️ 地標卡片</span><span class="layer-toggle-dot"></span>
+        </button>
+        <button class="layer-toggle-btn active" id="lyr-btn-lifeProps" onclick="toggleLayer('lifeProps')">
+          <span>🛵 生活實體</span><span class="layer-toggle-dot"></span>
+        </button>
+        <button class="layer-toggle-btn active" id="lyr-btn-airFleet" onclick="toggleLayer('airFleet')">
+          <span>✈️ 空中機隊</span><span class="layer-toggle-dot"></span>
+        </button>
+        <button class="layer-toggle-btn" id="lyr-btn-autoRotate" onclick="toggleLayer('autoRotate')">
+          <span>🔄 自動巡航</span><span class="layer-toggle-dot"></span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 📱 手機／平板 單手拇指區：實體物件快捷滑動列 -->
+  <nav id="mobile-thumb-dock" aria-label="手機快捷實體物件導覽"></nav>
+
+  <!-- 👁️ 純淨 3D 模式返回按鈕 -->
+  <button id="pure3d-exit-btn" onclick="togglePure3DMode()">✨ 返回完整互動介面</button>
+
+  <!-- 🧊 互動彈窗：時尚實體生活物件圖鑑 -->
+  <div id="object-gallery-modal" class="modal-overlay" onclick="closeModal('object-gallery-modal')">
+    <div class="modal-card" style="max-width:740px;" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('object-gallery-modal')">✕</button>
+      <div style="text-align:left;">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:#fff1f2;color:#e11d48;font-size:11.5px;font-weight:900;padding:4px 10px;border-radius:999px;margin-bottom:6px;">
+          ✨ 時尚生活實體物件 × 3D 互動地標
+        </div>
+        <h2 style="font-size:20px;font-weight:900;color:#0f172a;margin-bottom:4px;">復興村 6 大生活實體模組圖鑑</h2>
+        <p style="font-size:12.5px;color:#475569;">點擊任一實體微縮物件，3D 鏡頭立即飛越對焦該地標並開啟對應互動體驗！</p>
+        <div class="object-gallery-grid" id="object-gallery-grid"></div>
       </div>
     </div>
   </div>
@@ -2844,6 +3410,209 @@
     ];
     treeCoords.forEach(c => islandGroup.add(createRealisticTree(c[0], c[1], c[2], c[3])));
 
+    // ==================================================================================
+    // 🛵 時尚實體生活物件群組 (lifePropsGroup)：復古速克達、凸面安全鏡、暖光路燈、石桌茶座、咖啡傘、浮標與海鷗
+    // ==================================================================================
+    const lifePropsGroup = new THREE.Group();
+    islandGroup.add(lifePropsGroup);
+    const streetLampBulbs = [];
+    const animatedSeagulls = [];
+    const animatedBuoys = [];
+
+    // 1) 巷口復古珊瑚紅速克達小機車（停靠在石階旁）
+    (function buildRetroScooter() {
+      const scooter = new THREE.Group();
+      const bodyMat = new THREE.MeshLambertMaterial({ color: 0xf43f5e });
+      const creamMat = new THREE.MeshLambertMaterial({ color: 0xfef3c7 });
+      const darkMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+      const chromeMat = new THREE.MeshLambertMaterial({ color: 0xe2e8f0 });
+
+      const chassis = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.24, 0.85), bodyMat);
+      chassis.position.set(0, 0.24, 0);
+      chassis.castShadow = true;
+      scooter.add(chassis);
+
+      const frontShield = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.44, 0.14), creamMat);
+      frontShield.position.set(0, 0.44, 0.34);
+      frontShield.rotation.x = -0.18;
+      scooter.add(frontShield);
+
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.12, 0.44), new THREE.MeshLambertMaterial({ color: 0x92400e }));
+      seat.position.set(0, 0.41, -0.12);
+      scooter.add(seat);
+
+      const handleBar = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.46, 8), chromeMat);
+      handleBar.rotation.z = Math.PI / 2;
+      handleBar.position.set(0, 0.68, 0.30);
+      scooter.add(handleBar);
+
+      const headLight = new THREE.Mesh(new THREE.SphereGeometry(0.075, 10, 10), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
+      headLight.position.set(0, 0.65, 0.39);
+      scooter.add(headLight);
+
+      [0.32, -0.32].forEach(zPos => {
+        const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.1, 14), darkMat);
+        wheel.rotation.z = Math.PI / 2;
+        wheel.position.set(0, 0.14, zPos);
+        scooter.add(wheel);
+      });
+
+      scooter.position.set(-2.95, 1.42, 3.25);
+      scooter.rotation.y = 0.68;
+      scooter.userData = {
+        onClick3D: () => {
+          bounce3DObject(scooter, 0.45);
+          openRoadModal(0);
+        }
+      };
+      lifePropsGroup.add(scooter);
+    })();
+
+    // 2) 路口橘白條紋柱＋凸面安全反光鏡（呼應「復興行不行」道路安全改善）
+    (function buildRoadMirror() {
+      const mirrorGrp = new THREE.Group();
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 1.35, 8), new THREE.MeshLambertMaterial({ color: 0xf97316 }));
+      pole.position.y = 0.68;
+      pole.castShadow = true;
+      mirrorGrp.add(pole);
+
+      const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.07, 16), new THREE.MeshLambertMaterial({ color: 0xea580c }));
+      rim.rotation.x = Math.PI / 2;
+      rim.position.set(0, 1.32, 0.03);
+      mirrorGrp.add(rim);
+
+      const glass = new THREE.Mesh(new THREE.SphereGeometry(0.20, 14, 14, 0, Math.PI * 2, 0, Math.PI * 0.45), new THREE.MeshLambertMaterial({ color: 0xe0f2fe }));
+      glass.rotation.x = Math.PI / 2;
+      glass.position.set(0, 1.32, 0.06);
+      mirrorGrp.add(glass);
+
+      mirrorGrp.position.set(-4.05, 1.4, 3.65);
+      mirrorGrp.rotation.y = 0.55;
+      lifePropsGroup.add(mirrorGrp);
+    })();
+
+    // 3) 暖光海岸 LED 路燈組（夜間自動點亮暖黃光暈）
+    const lampCoords = [
+      [-2.1, 1.42, 4.4], [0.8, 1.42, 4.8], [3.4, 1.42, 4.3],
+      [-3.5, 2.05, 1.6], [3.6, 2.05, 1.4]
+    ];
+    lampCoords.forEach(([lx, ly, lz]) => {
+      const lamp = new THREE.Group();
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.05, 1.45, 8), new THREE.MeshLambertMaterial({ color: 0x334155 }));
+      post.position.y = 0.72;
+      post.castShadow = true;
+      lamp.add(post);
+
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.04, 0.04), new THREE.MeshLambertMaterial({ color: 0x334155 }));
+      arm.position.set(0.12, 1.44, 0);
+      lamp.add(arm);
+
+      const bulbMat = new THREE.MeshBasicMaterial({ color: 0xfde68a });
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.095, 10, 10), bulbMat);
+      bulb.position.set(0.24, 1.40, 0);
+      lamp.add(bulb);
+      streetLampBulbs.push(bulb);
+
+      lamp.position.set(lx, ly, lz);
+      lifePropsGroup.add(lamp);
+    });
+
+    // 4) 石頭屋總部門前：花崗岩茶桌＋茶壺茶杯＋九重葛紅花盆栽
+    (function buildVillageTeaCorner() {
+      const teaGrp = new THREE.Group();
+      const stoneMat = new THREE.MeshLambertMaterial({ color: 0xd6d3d1 });
+      const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.40, 0.09, 12), stoneMat);
+      tableTop.position.y = 0.34;
+      tableTop.castShadow = true;
+      teaGrp.add(tableTop);
+      const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.20, 0.34, 10), stoneMat);
+      tableLeg.position.y = 0.17;
+      teaGrp.add(tableLeg);
+
+      const teapot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 10, 10), new THREE.MeshLambertMaterial({ color: 0xb91c1c }));
+      teapot.position.set(0, 0.44, 0);
+      teaGrp.add(teapot);
+
+      [[0.58, 0], [-0.58, 0], [0, 0.58]].forEach(([sx, sz]) => {
+        const stool = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.22, 10), stoneMat);
+        stool.position.set(sx, 0.11, sz);
+        teaGrp.add(stool);
+      });
+
+      [[-0.85, -0.45], [0.85, -0.45]].forEach(([px, pz]) => {
+        const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.10, 0.18, 8), new THREE.MeshLambertMaterial({ color: 0xc2410c }));
+        pot.position.set(px, 0.09, pz);
+        teaGrp.add(pot);
+        const bush = new THREE.Mesh(new THREE.DodecahedronGeometry(0.18, 0), new THREE.MeshLambertMaterial({ color: 0x16a34a }));
+        bush.position.set(px, 0.26, pz);
+        teaGrp.add(bush);
+        const flower = new THREE.Mesh(new THREE.DodecahedronGeometry(0.11, 0), new THREE.MeshLambertMaterial({ color: 0xf43f5e }));
+        flower.position.set(px + 0.05, 0.36, pz + 0.04);
+        teaGrp.add(flower);
+      });
+
+      teaGrp.position.set(-0.55, 2.06, 1.38);
+      lifePropsGroup.add(teaGrp);
+    })();
+
+    // 5) 澳口燈塔旁文青咖啡遮陽傘座
+    (function buildSeasideCafeUmbrella() {
+      const cafe = new THREE.Group();
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.15, 8), new THREE.MeshLambertMaterial({ color: 0x92400e }));
+      pole.position.y = 0.58;
+      cafe.add(pole);
+
+      const canopy = new THREE.Mesh(new THREE.ConeGeometry(0.72, 0.34, 8), new THREE.MeshLambertMaterial({ color: 0xfb7185, flatShading: true }));
+      canopy.position.y = 1.18;
+      canopy.castShadow = true;
+      cafe.add(canopy);
+
+      const cTable = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.06, 12), new THREE.MeshLambertMaterial({ color: 0xfef3c7 }));
+      cTable.position.y = 0.38;
+      cafe.add(cTable);
+
+      const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.045, 0.08, 10), new THREE.MeshLambertMaterial({ color: 0xffffff }));
+      cup.position.set(0.10, 0.45, 0.06);
+      cafe.add(cup);
+
+      cafe.position.set(5.15, 1.42, 3.35);
+      lifePropsGroup.add(cafe);
+    })();
+
+    // 6) 海港漂浮彩球浮標 & 翱翔白海鷗群
+    [[-6.8, -0.1, 6.2, 0xef4444], [2.4, -0.1, 8.8, 0xf59e0b], [8.8, -0.1, 1.6, 0x0ea5e9]].forEach(([bx, by, bz, col], idx) => {
+      const buoy = new THREE.Group();
+      const base = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), new THREE.MeshLambertMaterial({ color: col }));
+      buoy.add(base);
+      const stripe = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.05, 8, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      stripe.rotation.x = Math.PI / 2;
+      buoy.add(stripe);
+      buoy.position.set(bx, by, bz);
+      buoy.userData = { baseY: by, phase: idx * 2.1 };
+      lifePropsGroup.add(buoy);
+      animatedBuoys.push(buoy);
+    });
+
+    for (let g = 0; g < 4; g++) {
+      const gull = new THREE.Group();
+      const wingMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+      const leftWing = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.14), wingMat);
+      leftWing.position.x = -0.18;
+      const rightWing = new THREE.Mesh(new THREE.PlaneGeometry(0.36, 0.14), wingMat);
+      rightWing.position.x = 0.18;
+      gull.add(leftWing, rightWing);
+      gull.userData = {
+        leftWing, rightWing,
+        radius: 6.2 + g * 1.15,
+        speed: 0.42 + g * 0.08,
+        height: 4.8 + (g % 2) * 1.1,
+        offset: g * 1.65
+      };
+      lifePropsGroup.add(gull);
+      animatedSeagulls.push(gull);
+    }
+
+
     // ========================================================
     // 🔥 3D 空間錨定中心：中間圖塊高懸於天空，完全不壓島嶼地表 🔥
     // ========================================================
@@ -3223,15 +3992,22 @@
       confetti({ particleCount: 45, spread: 65, origin: { y: 0.6 }, colors: ['#1877f2', '#38bdf8', '#ffffff'] });
     }
 
-    const LANDMARK_HOTSPOTS = [
+    // =========================================================================
+    // 🧊 6+1 時尚實體生活物件模組定義（結合實物縮圖、3D 鏡頭飛越、集章探索）
+    // =========================================================================
+    const PHYSICAL_MODULES = [
       {
         id: 'hs-policy',
         cls: 'hs-policy',
         icon: '📋',
         label: '核心政見',
         sub: '石頭屋總部',
+        desc: '花崗岩閩東石頭屋總部：瀏覽在地服務三大核心政見與青年接棒藍圖。',
+        img: 'images/modules/mod_hq_house.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(-1.7, 4.35, -1.0),
+        camPos: new THREE.Vector3(14, 18, 16),
+        camTarget: new THREE.Vector3(-1.4, 0.6, -0.8),
         targetObj: () => stoneHouseMeshes[5],
         action: () => { bounce3DObject(stoneHouseMeshes[5]); openPolicyModal(); }
       },
@@ -3241,8 +4017,12 @@
         icon: '🛤️',
         label: '復興行不行',
         sub: '5處道路對照',
+        desc: '巷口復古速克達與凸面安全鏡：滑動檢視復興村 5 處道路改善實景前後對照！',
+        img: 'images/modules/mod_road_scooter.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(-3.6, 2.85, 4.2),
+        camPos: new THREE.Vector3(12, 16, 22),
+        camTarget: new THREE.Vector3(-3.2, -0.4, 3.6),
         targetObj: () => stairGroup,
         action: () => { bounce3DObject(stairGroup, 0.45); openRoadModal(0); }
       },
@@ -3252,8 +4032,12 @@
         icon: '🎬',
         label: '參選影片',
         sub: '石屋電影院',
+        desc: '復古電影放映機與場記板：立即觀看 ①號陳玉媛 5 支精選參選紀實短片。',
+        img: 'images/modules/mod_cinema_camera.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(2.3, 3.85, -0.8),
+        camPos: new THREE.Vector3(20, 18, 15),
+        camTarget: new THREE.Vector3(2.0, 0.3, -0.6),
         targetObj: () => stoneHouseMeshes[7],
         action: () => { bounce3DObject(stoneHouseMeshes[7]); openVideoModal('change'); }
       },
@@ -3263,8 +4047,12 @@
         icon: '📘',
         label: '臉書專頁',
         sub: '澳口燈塔',
+        desc: '白色海岸燈塔與文青咖啡角：直達陳玉媛臉書專頁按讚追蹤最新村務動態。',
+        img: 'images/modules/mod_lighthouse_cafe.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(6.7, 4.35, 3.8),
+        camPos: new THREE.Vector3(22, 16, 18),
+        camTarget: new THREE.Vector3(5.6, 0.2, 3.2),
         targetObj: () => lighthouseGroup,
         action: () => { bounce3DObject(lighthouseGroup, 0.55); openFbLandmarkModal(); }
       },
@@ -3274,8 +4062,12 @@
         icon: '📤',
         label: '分享親友',
         sub: '復興漁船',
+        desc: '馬祖彩繪木造漁船滿載祝福：一鍵分享 LINE / 臉書給復興村親朋好友！',
+        img: 'images/modules/mod_fishing_boat.jpg',
         parent: boatGroup,
         pos: new THREE.Vector3(0, 1.45, 0),
+        camPos: new THREE.Vector3(22, 15, 22),
+        camTarget: new THREE.Vector3(5.8, -1.6, 4.2),
         targetObj: () => boatGroup,
         action: () => { shareCampaign(); }
       },
@@ -3284,9 +4076,13 @@
         cls: 'hs-voice',
         icon: '🔊',
         label: '女主播導覽',
-        sub: '海港防波堤',
+        sub: '海港廣播站',
+        desc: '玫瑰金播客麥克風與海港廣播：點擊聆聽 ①號陳玉媛親切熱情的語音問候！',
+        img: 'images/modules/mod_radio_mic.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(4.5, 2.55, 5.6),
+        camPos: new THREE.Vector3(18, 15, 22),
+        camTarget: new THREE.Vector3(4.0, -0.8, 4.6),
         targetObj: () => breakwaterGroup,
         action: () => { bounce3DObject(breakwaterGroup, 0.35); playVoiceGreeting(); }
       },
@@ -3296,12 +4092,80 @@
         icon: '📜',
         label: '競選海報',
         sub: '後山石頭屋',
+        desc: '後山石頭屋文宣館：開啟 ①號陳玉媛高清競選海報與投票示範大圖。',
+        img: 'images/og_cover.jpg',
         parent: islandGroup,
         pos: new THREE.Vector3(1.5, 4.45, -2.5),
+        camPos: new THREE.Vector3(16, 19, 14),
+        camTarget: new THREE.Vector3(1.2, 0.6, -2.0),
         targetObj: () => stoneHouseMeshes[9],
         action: () => { bounce3DObject(stoneHouseMeshes[9]); openPosterModal(); }
       }
     ];
+    const LANDMARK_HOTSPOTS = PHYSICAL_MODULES;
+
+    // 🎥 絲滑 3D 鏡頭飛越控制 (Smooth Camera Fly-To)
+    let flyAnim = null;
+    function flyCameraTo(targetCamPos, targetLookAt) {
+      flyAnim = {
+        startPos: camera.position.clone(),
+        endPos: targetCamPos.clone(),
+        startTarget: controls.target.clone(),
+        endTarget: targetLookAt.clone(),
+        startTime: performance.now(),
+        duration: 720
+      };
+    }
+    controls.addEventListener('start', () => { flyAnim = null; });
+
+    // 🏅 逛復興集章互動系統 (探索 6 大生活實體模組)
+    const STAMP_KEY = 'fuxing_v2_visited_stamps';
+    const CORE_STAMP_IDS = ['hs-policy', 'hs-road', 'hs-video', 'hs-fb', 'hs-share', 'hs-voice'];
+    let visitedStamps = new Set();
+    try {
+      const saved = JSON.parse(localStorage.getItem(STAMP_KEY) || '[]');
+      if (Array.isArray(saved)) saved.forEach(id => visitedStamps.add(id));
+    } catch (e) {}
+
+    function updateStampUI() {
+      const doneCount = CORE_STAMP_IDS.filter(id => visitedStamps.has(id)).length;
+      const pct = Math.round((doneCount / CORE_STAMP_IDS.length) * 100);
+      const badge = document.getElementById('fab-stamp-badge');
+      const txt = document.getElementById('stamp-count-text');
+      const bar = document.getElementById('stamp-bar-fill');
+      if (badge) badge.textContent = `${doneCount}/${CORE_STAMP_IDS.length}`;
+      if (txt) txt.textContent = `${doneCount} / ${CORE_STAMP_IDS.length} 完成`;
+      if (bar) bar.style.width = `${pct}%`;
+
+      document.querySelectorAll('[data-mod-id]').forEach(el => {
+        const mid = el.getAttribute('data-mod-id');
+        if (visitedStamps.has(mid)) el.classList.add('visited');
+      });
+    }
+
+    function markModuleVisited(id) {
+      const wasDone = CORE_STAMP_IDS.filter(k => visitedStamps.has(k)).length;
+      visitedStamps.add(id);
+      try { localStorage.setItem(STAMP_KEY, JSON.stringify([...visitedStamps])); } catch (e) {}
+      updateStampUI();
+      const nowDone = CORE_STAMP_IDS.filter(k => visitedStamps.has(k)).length;
+      if (nowDone === CORE_STAMP_IDS.length && wasDone < CORE_STAMP_IDS.length) {
+        confetti({ particleCount: 110, spread: 85, origin: { y: 0.55 }, colors: ['#e11d48', '#f59e0b', '#10b981', '#38bdf8'] });
+        showCustomToast('🏅 恭喜集滿 6 大復興生活實體章！感謝成為 ①號陳玉媛 頭號鐵粉！');
+      }
+    }
+
+    function activateModule(item, skipModalDelay = false) {
+      if (item.camPos && item.camTarget) {
+        flyCameraTo(item.camPos, item.camTarget);
+      }
+      markModuleVisited(item.id);
+      if (skipModalDelay) {
+        item.action();
+      } else {
+        setTimeout(() => item.action(), 220);
+      }
+    }
 
     const hotspotsLayerEl = document.getElementById('island-hotspots-layer');
     const hotspotRenderList = [];
@@ -3313,22 +4177,148 @@
 
       const el = document.createElement('div');
       el.className = `island-hotspot ${item.cls}`;
+      el.setAttribute('data-mod-id', item.id);
       el.innerHTML = `
         <div class="hotspot-card">
-          <span>${item.icon}</span>
-          <span>${item.label}</span>
-          <span class="hotspot-sub">${item.sub}</span>
+          <img class="hotspot-thumb" src="${item.img}" alt="${item.label}" loading="lazy" onerror="this.style.display='none'">
+          <div class="hotspot-meta">
+            <div class="hotspot-label-row">
+              <span>${item.label}</span>
+              <span class="hotspot-stamp-check">✓</span>
+            </div>
+            <span class="hotspot-sub">${item.sub}</span>
+          </div>
         </div>
         <div class="hotspot-stem"></div>
         <div class="hotspot-dot"></div>
       `;
       el.addEventListener('click', (e) => {
         e.stopPropagation();
-        item.action();
+        activateModule(item, true);
       });
       hotspotsLayerEl.appendChild(el);
       hotspotRenderList.push({ anchor3d, el });
     });
+
+    // 渲染右側控制台、手機拇指導覽列與實體物件圖鑑
+    (function initPhysicalModuleUI() {
+      const coreModules = PHYSICAL_MODULES.slice(0, 6);
+      const studioGrid = document.getElementById('studio-modules-grid');
+      const mobileDock = document.getElementById('mobile-thumb-dock');
+      const galleryGrid = document.getElementById('object-gallery-grid');
+
+      coreModules.forEach(item => {
+        if (studioGrid) {
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'studio-mod-card';
+          card.setAttribute('data-mod-id', item.id);
+          card.innerHTML = `
+            <span class="studio-mod-done">✓</span>
+            <img src="${item.img}" alt="${item.label}" loading="lazy">
+            <div class="studio-mod-name">${item.label}</div>
+            <div class="studio-mod-sub">${item.sub}</div>
+          `;
+          card.onclick = () => {
+            if (window.innerWidth <= 1120) toggleStudioPanel(false);
+            activateModule(item);
+          };
+          studioGrid.appendChild(card);
+        }
+
+        if (mobileDock) {
+          const mBtn = document.createElement('button');
+          mBtn.type = 'button';
+          mBtn.className = 'thumb-dock-item';
+          mBtn.setAttribute('data-mod-id', item.id);
+          mBtn.innerHTML = `
+            <img src="${item.img}" alt="${item.label}" loading="lazy">
+            <span>${item.label}</span>
+          `;
+          mBtn.onclick = () => activateModule(item);
+          mobileDock.appendChild(mBtn);
+        }
+
+        if (galleryGrid) {
+          const gCard = document.createElement('div');
+          gCard.className = 'gallery-obj-card';
+          gCard.innerHTML = `
+            <img src="${item.img}" alt="${item.label}" loading="lazy">
+            <div class="gallery-obj-info">
+              <div class="gallery-obj-title">${item.icon} ${item.label}・${item.sub}</div>
+              <div class="gallery-obj-desc">${item.desc}</div>
+            </div>
+          `;
+          gCard.onclick = () => {
+            closeModal('object-gallery-modal');
+            activateModule(item);
+          };
+          galleryGrid.appendChild(gCard);
+        }
+      });
+
+      if (mobileDock) {
+        const stickerToggle = document.createElement('button');
+        stickerToggle.type = 'button';
+        stickerToggle.className = 'thumb-dock-item';
+        stickerToggle.innerHTML = `<span style="font-size:22px;line-height:34px;">💖</span><span>16款貼圖</span>`;
+        stickerToggle.onclick = () => {
+          document.body.classList.toggle('show-mobile-stickers');
+          showCustomToast(document.body.classList.contains('show-mobile-stickers') ? '💖 已展開 16 款競選貼圖列' : '✨ 已收合貼圖列，保留最大 3D 視野');
+        };
+        mobileDock.appendChild(stickerToggle);
+
+        const pureBtn = document.createElement('button');
+        pureBtn.type = 'button';
+        pureBtn.className = 'thumb-dock-item';
+        pureBtn.innerHTML = `<span style="font-size:22px;line-height:34px;">👁️</span><span>純淨3D</span>`;
+        pureBtn.onclick = () => togglePure3DMode();
+        mobileDock.appendChild(pureBtn);
+      }
+
+      if (window.innerWidth > 1280) {
+        const panel = document.getElementById('module-studio-panel');
+        if (panel) panel.classList.remove('collapsed');
+      }
+      updateStampUI();
+    })();
+
+    // 全域控制函式：控制台開關、圖層切換、純淨3D、實體圖鑑
+    const layerState = { hotspots: true, lifeProps: true, airFleet: true, autoRotate: false };
+    window.toggleStudioPanel = function(forceOpen) {
+      const panel = document.getElementById('module-studio-panel');
+      if (!panel) return;
+      if (typeof forceOpen === 'boolean') {
+        panel.classList.toggle('collapsed', !forceOpen);
+      } else {
+        panel.classList.toggle('collapsed');
+      }
+    };
+    window.toggleLayer = function(name) {
+      layerState[name] = !layerState[name];
+      const btn = document.getElementById('lyr-btn-' + name);
+      if (btn) btn.classList.toggle('active', layerState[name]);
+      if (name === 'hotspots') {
+        hotspotsLayerEl.style.display = layerState.hotspots ? '' : 'none';
+      } else if (name === 'lifeProps') {
+        lifePropsGroup.visible = layerState.lifeProps;
+      } else if (name === 'airFleet') {
+        campaignPlaneGroup.visible = layerState.airFleet;
+        campaignHeliGroup.visible = layerState.airFleet;
+        campaignDroneGroup.visible = layerState.airFleet;
+      } else if (name === 'autoRotate') {
+        controls.autoRotate = layerState.autoRotate;
+        controls.autoRotateSpeed = 1.1;
+      }
+    };
+    window.togglePure3DMode = function() {
+      const isPure = document.body.classList.toggle('pure-3d-mode');
+      showCustomToast(isPure ? '👁️ 已進入純淨 3D 賞島模式：單指旋轉、雙指縮放！' : '✨ 已恢復完整互動介面');
+    };
+    window.openObjectGalleryModal = function() {
+      const m = document.getElementById('object-gallery-modal');
+      if (m) m.classList.add('active');
+    };
 
     // 為 3D 實體物件標記互動行為（直接點選房子、燈塔、石階、防波堤、漁船、空中三機也能直接觸發！）
     lighthouseGroup.userData = { onClick3D: () => { bounce3DObject(lighthouseGroup, 0.55); openFbLandmarkModal(); } };
@@ -3357,6 +4347,7 @@
     const interactiveRoots = [
       lighthouseGroup, stairGroup, breakwaterGroup, boatGroup,
       campaignPlaneGroup, campaignHeliGroup, campaignDroneGroup,
+      lifePropsGroup,
       ...stoneHouseMeshes
     ];
     const raycaster = new THREE.Raycaster();
@@ -3397,7 +4388,32 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
+      if (flyAnim) {
+        const fp = Math.min((performance.now() - flyAnim.startTime) / flyAnim.duration, 1);
+        const ease = 1 - Math.pow(1 - fp, 3);
+        camera.position.lerpVectors(flyAnim.startPos, flyAnim.endPos, ease);
+        controls.target.lerpVectors(flyAnim.startTarget, flyAnim.endTarget, ease);
+        if (fp >= 1) flyAnim = null;
+      }
       controls.update();
+
+      // 🕊️ 翱翔白海鷗展翅盤旋 + 海港浮標律動
+      animatedSeagulls.forEach(gull => {
+        const u = gull.userData;
+        const a = t * u.speed + u.offset;
+        const gx = Math.cos(a) * u.radius;
+        const gz = Math.sin(a) * u.radius;
+        const gy = u.height + Math.sin(t * 2.1 + u.offset) * 0.35;
+        gull.position.set(gx, gy, gz);
+        gull.rotation.y = -a;
+        const flap = Math.sin(t * 9.5 + u.offset) * 0.45;
+        u.leftWing.rotation.z = flap;
+        u.rightWing.rotation.z = -flap;
+      });
+      animatedBuoys.forEach(b => {
+        b.position.y = b.userData.baseY + Math.sin(t * 2.4 + b.userData.phase) * 0.12;
+        b.rotation.z = Math.sin(t * 1.9 + b.userData.phase) * 0.14;
+      });
 
       // 主島波浪起伏 (帶動中間圖塊一起動！)
       const islandBobY = -2.5 + Math.sin(t * 1.6) * 0.18;
@@ -3413,6 +4429,7 @@
       houseWindowMeshes.forEach(wm => {
         wm.material.color.setHex(isNight ? 0xfef08a : 0xd97706);
       });
+      streetLampBulbs.forEach(b => { b.material.color.setHex(isNight ? 0xfef08a : 0xfde68a); b.scale.setScalar(isNight ? 1.35 : 1.0); });
 
       // 金色光環與能量柱旋轉律動
       heroRingGroup.rotation.y = t * 0.4;
