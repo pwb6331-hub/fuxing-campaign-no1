@@ -1314,9 +1314,6 @@
       <button class="tool-btn primary-video" onclick="openVideoModal('change')">
         <span>🎬</span> 競選影片
       </button>
-      <button class="tool-btn primary-share" onclick="shareCampaign()">
-        <span>📤</span> 分享喜悅
-      </button>
       <a class="tool-btn primary-fb" href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" title="開啟陳玉媛村長臉書">
         <span>📘</span> 村長臉書
       </a>
@@ -1683,9 +1680,6 @@
         <a href="https://www.facebook.com/chen.yu.yuan.611891?locale=zh_TW" target="_blank" rel="noopener noreferrer" class="tool-btn primary-fb" style="flex: 1.4; justify-content: center; padding: 10px; font-size: 13.5px;">
           📘 立即前往陳玉媛臉書
         </a>
-        <button class="tool-btn primary-share" style="flex: 1; justify-content: center; padding: 10px; font-size: 13px;" onclick="closeModal('fb-modal'); shareCampaign();">
-          📤 分享親友
-        </button>
       </div>
     </div>
   </div>
@@ -3407,17 +3401,6 @@
         action: () => { bounce3DObject(lighthouseGroup, 0.55); openFbLandmarkModal(); }
       },
       {
-        id: 'hs-share',
-        cls: 'hs-share',
-        icon: '📤',
-        label: '分享喜悅',
-        sub: '復興漁船',
-        parent: boatGroup,
-        pos: new THREE.Vector3(0, 1.45, 0),
-        targetObj: () => boatGroup,
-        action: () => { shareCampaign(); }
-      },
-      {
         id: 'hs-voice',
         cls: 'hs-voice',
         icon: '🔊',
@@ -3472,7 +3455,7 @@
     lighthouseGroup.userData = { onClick3D: () => { bounce3DObject(lighthouseGroup, 0.55); openFbLandmarkModal(); } };
     stairGroup.userData = { onClick3D: () => { bounce3DObject(stairGroup, 0.45); openRoadModal(0); } };
     breakwaterGroup.userData = { onClick3D: () => { bounce3DObject(breakwaterGroup, 0.35); playVoiceGreeting(); } };
-    boatGroup.userData = { onClick3D: () => { shareCampaign(); } };
+    boatGroup.userData = { onClick3D: () => { showCustomToast("🚤 復興澳口漁船：風調雨順、漁獲滿載！"); } };
     [campaignPlaneGroup, campaignHeliGroup].forEach(air => {
       air.userData = {
         onClick3D: () => {
